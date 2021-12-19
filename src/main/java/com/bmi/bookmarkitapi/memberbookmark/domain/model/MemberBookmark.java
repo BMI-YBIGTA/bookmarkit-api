@@ -1,4 +1,4 @@
-package com.bmi.bookmarkitapi.userbookmark.domain.model;
+package com.bmi.bookmarkitapi.memberbookmark.domain.model;
 
 import com.bmi.bookmarkitapi.common.BaseEntity;
 import lombok.AccessLevel;
@@ -10,26 +10,26 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class UserBookmark extends BaseEntity {
+public class MemberBookmark extends BaseEntity {
     @Id @GeneratedValue
     private Long id;
-    private Long userId;
+    private Long memberId;
     private Long bookmarkId;
     private String title;
     @Enumerated(EnumType.STRING)
-    private UserBookMarkStatus status = UserBookMarkStatus.INIT;
+    private MemberBookMarkStatus status = MemberBookMarkStatus.INIT;
 
-    public UserBookmark(
-            Long userId,
+    public MemberBookmark(
+            Long memberId,
             Long bookMarkId,
             String title
     ) {
-        this.userId = userId;
+        this.memberId = memberId;
         this.bookmarkId = bookMarkId;
         this.title = title;
     }
 
-    public UserBookmark titleModify(String title) {
+    public MemberBookmark titleModify(String title) {
         this.title = title;
         return this;
     }
