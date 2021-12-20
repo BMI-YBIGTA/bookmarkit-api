@@ -17,9 +17,8 @@ public class BookMarkCommandService extends BaseCommandService<BookMark> {
     public BookMark create(
             String header,
             String link,
-            String content,
-            String category
+            String content
     ) {
-        return this.save(new BookMark(header, link, content, category));
+        return this.save(new BookMark(header, link, content));
     }
 }

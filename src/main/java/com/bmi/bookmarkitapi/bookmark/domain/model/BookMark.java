@@ -20,19 +20,24 @@ public class BookMark extends BaseEntity {
     private String header;
     private String link;
     private String content;
+    @Column(nullable = true)
     private String category;
     @Enumerated(EnumType.STRING)
     private BookMarkStatus status = BookMarkStatus.INIT;
 
-    public BookMark(String header, String link, String content, String category) {
+    public BookMark(String header, String link, String content) {
         this.header = header;
         this.link = link;
         this.content = content;
-        this.category = category;
     }
 
     public BookMark statusModify(BookMarkStatus status) {
         this.status = status;
+        return this;
+    }
+
+    public BookMark setCategory(String category){
+        this.category = category;
         return this;
     }
 }

@@ -22,7 +22,7 @@ public class BookMarkQueryService  extends BaseQueryService<BookMark> {
         this.bookMarkRepository = bookMarkRepository;
     }
 
-    public Optional<BookMark> urlQuery(String link) {
+    public Optional<BookMark> query(String link) {
         return bookMarkRepository.findByLink(link);
     }
 }
