@@ -21,7 +21,7 @@ public class MemberCommandController {
     }
 
     @PutMapping("/member/{id}")
-    public Response.Item<MemberDto.Response> update(@PathVariable Long id, MemberDto.Request.ModifyInfo memberDto) {
+    public Response.Item<MemberDto.Response> modifyInfo(@PathVariable Long id, MemberDto.Request.ModifyInfo memberDto) {
         return new Response.Item<>(memberModificationService.modifyInfo(id, memberDto));
     }
 }
