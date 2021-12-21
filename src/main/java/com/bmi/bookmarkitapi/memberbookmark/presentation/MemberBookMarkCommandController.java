@@ -22,7 +22,7 @@ public class MemberBookMarkCommandController {
         return registrationService.register(request);
     }
 
-    @PatchMapping("{id}")
+    @PatchMapping("{id}/title")
     public MemberBookMark titleModify(
             @PathVariable Long id,
             @RequestBody MemberBookMarkTitleModificationRequest request
