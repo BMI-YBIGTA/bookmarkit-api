@@ -16,12 +16,15 @@ public class MemberCommandController {
     private final MemberModificationService memberModificationService;
 
     @PostMapping("/sign-up")
-    public Response.Item<MemberDto.Response> signUp(MemberDto.Request.Register memberDto) {
+    public Response.Item<MemberDto.Response> signUp(@RequestBody MemberDto.Request.Register memberDto) {
         return new Response.Item<>(memberRegistrationService.register(memberDto));
     }
 
     @PutMapping("/member/{id}")
-    public Response.Item<MemberDto.Response> update(@PathVariable Long id, MemberDto.Request.ModifyInfo memberDto) {
+    public Response.Item<MemberDto.Response> modifyInfo(
+            @PathVariable Long id,
+            @RequestBody MemberDto.Request.ModifyInfo memberDto
+    ) {
         return new Response.Item<>(memberModificationService.modifyInfo(id, memberDto));
     }
 }

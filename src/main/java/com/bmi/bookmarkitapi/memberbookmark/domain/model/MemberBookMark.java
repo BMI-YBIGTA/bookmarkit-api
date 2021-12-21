@@ -10,16 +10,14 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class MemberBookmark extends BaseEntity {
+public class MemberBookMark extends BaseEntity {
     @Id @GeneratedValue
     private Long id;
     private Long memberId;
     private Long bookmarkId;
     private String title;
-    @Enumerated(EnumType.STRING)
-    private MemberBookMarkStatus status = MemberBookMarkStatus.INIT;
 
-    public MemberBookmark(
+    public MemberBookMark(
             Long memberId,
             Long bookMarkId,
             String title
@@ -29,7 +27,7 @@ public class MemberBookmark extends BaseEntity {
         this.title = title;
     }
 
-    public MemberBookmark titleModify(String title) {
+    public MemberBookMark titleModify(String title) {
         this.title = title;
         return this;
     }
