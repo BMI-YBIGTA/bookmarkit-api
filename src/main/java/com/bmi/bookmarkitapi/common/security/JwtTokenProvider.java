@@ -6,11 +6,13 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Base64;
@@ -52,7 +54,7 @@ public class JwtTokenProvider {
                 .getBody()
                 .getSubject();
         UserDetails userDetails = userDetailsService.loadUserByUsername(email);
-        return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
+        return new UsernamePasswordAuthenticationToken(userDetails, "");
     }
 
     public boolean validateToken(String token) {
@@ -72,6 +74,10 @@ public class JwtTokenProvider {
 
     public String extractToken(HttpServletRequest request) {
         String authorization = request.getHeader(AUTHORIZATION_HEADER);
+
+        if (!authorization.startsWith(BEARER_PREFIX)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "잘못된 인증 헤더입니다.");
+        }
         return authorization.substring(BEARER_PREFIX.length() + 1);
     }
 }
