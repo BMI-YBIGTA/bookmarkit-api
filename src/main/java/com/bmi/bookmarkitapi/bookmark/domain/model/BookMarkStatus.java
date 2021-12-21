@@ -4,5 +4,5 @@ public enum BookMarkStatus {
     INIT,
     REQUESTING,
     INTERRUPTED,
-    REGISTERED,
+    COMPLETED,
 }

@@ -4,6 +4,7 @@ import com.bmi.bookmarkitapi.common.security.JwtAuthenticationFilter;
 import com.bmi.bookmarkitapi.common.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -14,11 +15,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @EnableWebSecurity
-@RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-
-    private final JwtTokenProvider jwtTokenProvider;
-    private final String[] WHITELIST_PATTERNS = {
+    private JwtTokenProvider jwtTokenProvider;
+    private String[] WHITELIST_PATTERNS = {
             "**",
 //            "/",
 //            "/api/session/set/**",
@@ -32,6 +31,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //            "/api/sign-up",
 //            "/api/sign-in"
     };
+    public SecurityConfig(@Lazy JwtTokenProvider jwtTokenProvider) {
+        this.jwtTokenProvider = jwtTokenProvider;
+    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
