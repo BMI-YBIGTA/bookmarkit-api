@@ -4,7 +4,7 @@ import com.bmi.bookmarkitapi.memberbookmark.application.MemberBookMarkRegistrati
 import com.bmi.bookmarkitapi.memberbookmark.application.MemberBookMarkTitleModificationService;
 import com.bmi.bookmarkitapi.memberbookmark.application.model.MemberBookMarkRegistrationRequest;
 import com.bmi.bookmarkitapi.memberbookmark.application.model.MemberBookMarkTitleModificationRequest;
-import com.bmi.bookmarkitapi.memberbookmark.domain.model.MemberBookmark;
+import com.bmi.bookmarkitapi.memberbookmark.domain.model.MemberBookMark;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,14 +16,14 @@ public class MemberBookMarkCommandController {
     private final MemberBookMarkTitleModificationService titleModificationService;
 
     @PostMapping
-    public MemberBookmark register(
+    public MemberBookMark register(
             @RequestBody MemberBookMarkRegistrationRequest request
             ) {
         return registrationService.register(request);
     }
 
-    @PatchMapping("{id}")
-    public MemberBookmark titleModify(
+    @PatchMapping("{id}/title")
+    public MemberBookMark titleModify(
             @PathVariable Long id,
             @RequestBody MemberBookMarkTitleModificationRequest request
             ) {

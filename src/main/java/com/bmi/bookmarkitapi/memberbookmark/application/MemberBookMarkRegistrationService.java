@@ -1,8 +1,8 @@
 package com.bmi.bookmarkitapi.memberbookmark.application;
 
-import com.bmi.bookmarkitapi.memberbookmark.application.model.BookMarkPassingRequest;
+import com.bmi.bookmarkitapi.memberbookmark.application.model.BookMarkQueryOrCreationRequest;
 import com.bmi.bookmarkitapi.memberbookmark.application.model.MemberBookMarkRegistrationRequest;
-import com.bmi.bookmarkitapi.memberbookmark.domain.model.MemberBookmark;
+import com.bmi.bookmarkitapi.memberbookmark.domain.model.MemberBookMark;
 import com.bmi.bookmarkitapi.memberbookmark.domain.service.MemberBookMarkCommandService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -11,13 +11,13 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class MemberBookMarkRegistrationService {
     private final MemberBookMarkCommandService commandService;
-    private final IBookMarkPassingService bookMarkPassingService;
+    private final IBookMarkQueryOrCreationService bookMarkQueryOrCreationService;
 
-    public MemberBookmark register(
+    public MemberBookMark register(
             MemberBookMarkRegistrationRequest request
     ) {
-        Long bookMarkId = bookMarkPassingService.pass(
-                new BookMarkPassingRequest(
+        Long bookMarkId = bookMarkQueryOrCreationService.queryOrCreate(
+                new BookMarkQueryOrCreationRequest(
                         request.header,
                         request.link,
                         request.content

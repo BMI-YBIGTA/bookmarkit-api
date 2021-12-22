@@ -3,12 +3,12 @@ package com.bmi.bookmarkitapi.memberbookmark.application.model;
 import lombok.Data;
 
 @Data
-public class BookMarkPassingRequest {
+public class BookMarkQueryOrCreationRequest {
     public String header;
     public String link;
     public String content;
 
-    public BookMarkPassingRequest(
+    public BookMarkQueryOrCreationRequest(
             String header,
             String link,
             String content
