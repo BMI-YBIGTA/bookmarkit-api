@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("bookmark")
+@RequestMapping("/api/bookmark")
 public class BookMarkQueryController extends BaseQueryController<BookMark> {
     public BookMarkQueryController(BookMarkQueryService queryService) {
         super(queryService);

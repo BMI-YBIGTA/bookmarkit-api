@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("memberbookmark")
+@RequestMapping("/api/memberbookmark")
 public class MemberBookMarkCommandController {
     private final MemberBookMarkRegistrationService registrationService;
     private final MemberBookMarkTitleModificationService titleModificationService;
