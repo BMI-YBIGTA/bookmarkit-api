@@ -10,5 +10,8 @@ spring:
       hibernate:
         format_sql: true
 
+security:
+  enable: true
+
 logging.level:
   org.hibernate.SQL: debug
