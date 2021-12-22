@@ -17,8 +17,8 @@ public class BookMarkQueryService  extends BaseQueryService<BookMark> {
 
     private final BookMarkRepository bookMarkRepository;
 
-    public BookMarkQueryService(BaseRepository<BookMark> repository,BookMarkRepository bookMarkRepository ) {
-        super(repository, new BookMarkNotFoundException());
+    public BookMarkQueryService(BookMarkRepository bookMarkRepository) {
+        super(bookMarkRepository, new BookMarkNotFoundException());
         this.bookMarkRepository = bookMarkRepository;
     }
 
