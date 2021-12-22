@@ -74,6 +74,9 @@ public class JwtTokenProvider {
     public String extractToken(HttpServletRequest request) {
         String authorization = request.getHeader(AUTHORIZATION_HEADER);
 
+        if (authorization == null) {
+            return null;
+        }
         if (!authorization.startsWith(BEARER_PREFIX)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "잘못된 인증 헤더입니다.");
         }
