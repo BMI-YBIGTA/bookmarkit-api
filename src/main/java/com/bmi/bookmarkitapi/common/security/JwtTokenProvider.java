@@ -4,7 +4,6 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,47 +19,47 @@ import java.util.Date;
 
 @Slf4j
 @Component
-@RequiredArgsConstructor
 public class JwtTokenProvider {
 
-    private String secretKey = "secret";
-    private final long EXPIRE_TIME = 60 * 60 * 24 * 7;
+    private final long EXPIRE_TIME_MILLIS = 1000 * 60 * 60 * 24 * 7;
     private final String AUTHORIZATION_HEADER = "Authorization";
     private final String BEARER_PREFIX = "Bearer";
+    private final String SIGNING_KEY = Base64.getEncoder().encodeToString("bookmarkit".getBytes());
 
     private final UserDetailsService userDetailsService;
 
-    protected void init() {
-        secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
+    public JwtTokenProvider(UserDetailsService userDetailsService) {
+        this.userDetailsService = userDetailsService;
     }
 
-    public String generateToken(String email) {
+    public String issueToken(String email) {
         Claims claims = Jwts.claims().setSubject(email);
         Date now = new Date();
-        Date expireDate = new Date(now.getTime() + EXPIRE_TIME);
+        Date expireDate = new Date(now.getTime() + EXPIRE_TIME_MILLIS);
 
         return Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(now)
                 .setExpiration(expireDate)
-                .signWith(SignatureAlgorithm.HS256, secretKey)
+                .signWith(SignatureAlgorithm.HS256, SIGNING_KEY)
                 .compact();
     }
 
     public Authentication getAuthentication(String token) {
         String email = Jwts.parser()
-                .setSigningKey(secretKey)
+                .setSigningKey(SIGNING_KEY)
                 .parseClaimsJws(token)
                 .getBody()
                 .getSubject();
+
         UserDetails userDetails = userDetailsService.loadUserByUsername(email);
         return new UsernamePasswordAuthenticationToken(userDetails, "");
     }
 
-    public boolean validateToken(String token) {
+    public boolean verifyToken(String token) {
         try {
             Jws<Claims> claims = Jwts.parser()
-                    .setSigningKey(secretKey)
+                    .setSigningKey(SIGNING_KEY)
                     .parseClaimsJws(token);
 
             return claims.getBody()
