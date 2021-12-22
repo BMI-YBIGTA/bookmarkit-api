@@ -24,6 +24,6 @@ public class MemberLoginService {
             throw new IllegalArgumentException("비밀번호가 잘못 입력되었습니다.");
         }
 
-        return jwtTokenProvider.generateToken(member.getUsername());
+        return jwtTokenProvider.issueToken(member.getUsername());
     }
 }

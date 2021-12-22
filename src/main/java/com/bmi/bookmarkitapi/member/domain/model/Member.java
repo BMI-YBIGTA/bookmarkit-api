@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.Collections;
 
 @Entity
 @Getter
@@ -22,11 +23,14 @@ public class Member extends BaseEntity implements UserDetails {
     @Column(nullable = false, unique = true, length = 30)
     private String email;
 
-    @Column(nullable = false, length = 30)
+    @Column(nullable = false, length = 20)
     private String name;
 
     @Column(nullable = false)
     private String password;
+
+    @Enumerated(EnumType.STRING)
+    private MemberRole role = MemberRole.NORMAL;
 
     public Member(String email, String name, String password) {
         this.email = email;
@@ -34,7 +38,7 @@ public class Member extends BaseEntity implements UserDetails {
         this.password = password;
     }
 
-    public Member modifyInfo(String email, String name, String password) {
+    public void modifyInfo(String email, String name, String password) {
         if (email != null && !email.isBlank()) {
             this.email = email;
         }
@@ -44,12 +48,15 @@ public class Member extends BaseEntity implements UserDetails {
         if (password != null && !password.isBlank()) {
             this.password = password;
         }
-        return this;
+    }
+
+    public void modifyRole(MemberRole role) {
+        this.role = role;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return Collections.singletonList(role.getAuthority());
     }
 
     @Override
@@ -59,21 +66,21 @@ public class Member extends BaseEntity implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
 }

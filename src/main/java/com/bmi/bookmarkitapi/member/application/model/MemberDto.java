@@ -40,14 +40,12 @@ public class MemberDto {
         private Long id;
         private String email;
         private String name;
-        private String password;
 
         public static Response from(Member member) {
             return new Response(
                     member.getId(),
                     member.getEmail(),
-                    member.getName(),
-                    member.getPassword()
+                    member.getName()
             );
         }
     }
