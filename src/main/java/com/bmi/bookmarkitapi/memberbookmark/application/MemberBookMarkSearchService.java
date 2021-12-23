@@ -24,7 +24,6 @@ import java.util.stream.Collectors;
 public class MemberBookMarkSearchService {
     private final MemberBookMarkQueryService queryService;
     private final IBookMarkSearchService searchService;
-    private final NotFoundException notFoundException;
 
     public Page<BookMarkSearchDto> search(MemberBookMarkSearchRequest searchRequest, Pageable pageable){
         List<MemberBookMark> memberBookMarkList = queryService.queryByMember(searchRequest.getMemberId());
