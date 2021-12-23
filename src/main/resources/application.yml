@@ -6,11 +6,14 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create
-  rabbitmq:
-    host: localhost
-    port: 5672
-    username: mq
-    password: secret
+    properties:
+      hibernate:
+        format_sql: true
 
 security:
   enable: true
+
+logging:
+  level:
+    root: info
+    org.hibernate.SQL: debug

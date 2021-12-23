@@ -32,8 +32,10 @@ public class JwtTokenProvider {
         this.userDetailsService = userDetailsService;
     }
 
-    public String issueToken(String email) {
-        Claims claims = Jwts.claims().setSubject(email);
+    public String issueToken(Long memberId, String email) {
+        Claims claims = Jwts.claims().setSubject(memberId.toString());
+        claims.put("email", email);
+
         Date now = new Date();
         Date expireDate = new Date(now.getTime() + EXPIRE_TIME_MILLIS);
 
@@ -50,7 +52,8 @@ public class JwtTokenProvider {
                 .setSigningKey(SIGNING_KEY)
                 .parseClaimsJws(token)
                 .getBody()
-                .getSubject();
+                .get("email")
+                .toString();
 
         UserDetails userDetails = userDetailsService.loadUserByUsername(email);
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
