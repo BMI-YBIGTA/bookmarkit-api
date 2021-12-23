@@ -13,5 +13,7 @@ spring:
 security:
   enable: true
 
-logging.level:
-  org.hibernate.SQL: debug
+logging:
+  level:
+    root: info
+    org.hibernate.SQL: debug

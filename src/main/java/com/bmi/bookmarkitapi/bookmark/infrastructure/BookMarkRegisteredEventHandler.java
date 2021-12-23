@@ -10,12 +10,12 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class BookMarkRegisteredEventHandler {
     private final BookMarkStatusModificationService bookMarkStatusModificationService;
+    private final BookMarkRegisteredEventProducer bookMarkRegisteredEventProducer;
 
     @EventListener
     public void handleBookMarkRegisteredEvent(BookMarkRegisteredEvent event) {
-        System.out.println("test");
-        System.out.println(event.bookMarkId);
+        System.out.println("event: " + event.toString());
         bookMarkStatusModificationService.request(event.bookMarkId);
-        //TODO: RabbitMQ 메시징
+        bookMarkRegisteredEventProducer.produce(event);
     }
 }

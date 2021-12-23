@@ -38,6 +38,9 @@ dependencies {
 
     runtimeOnly 'mysql:mysql-connector-java'
 
+    implementation 'commons-io:commons-io:2.8.0'
+    implementation 'org.apache.commons:commons-csv:1.8'
+
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.amqp:spring-rabbit-test'
     testImplementation 'org.springframework.security:spring-security-test'
