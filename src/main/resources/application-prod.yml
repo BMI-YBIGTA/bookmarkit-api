@@ -1,0 +1,17 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/bookmarkit
+    username: app
+    password: ybigta4321
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: mq
+    password: secret
+
+security:
+  enable: true
+
+logging:
+  level:
+    root: warn
