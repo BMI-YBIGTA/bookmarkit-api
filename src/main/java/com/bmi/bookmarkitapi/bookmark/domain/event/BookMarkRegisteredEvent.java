@@ -9,4 +9,9 @@ public class BookMarkRegisteredEvent {
     public Long bookMarkId;
     public String header;
     public String content;
+
+    @Override
+    public String toString() {
+        return bookMarkId.toString() + "|||" + header + "|||" + content;
+    }
 }

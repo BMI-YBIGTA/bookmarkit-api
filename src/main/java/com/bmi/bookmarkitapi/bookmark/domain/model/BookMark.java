@@ -20,7 +20,9 @@ public class BookMark extends BaseEntity {
     private String link;
     private String content;
     @Column(nullable = true)
-    private String category = null;
+    private String mainCategory = null;
+    @Column(nullable = true)
+    private String subCategory = null;
     @Enumerated(EnumType.STRING)
     private BookMarkStatus status = BookMarkStatus.INIT;
 
@@ -43,9 +45,9 @@ public class BookMark extends BaseEntity {
         this.status = BookMarkStatus.COMPLETED;
     }
 
-    public BookMark setCategory(String category){
-        this.category = category;
-        return this;
+    public void setCategory(String mainCategory, String subCategory){
+        this.mainCategory = mainCategory;
+        this.subCategory = subCategory;
     }
 
     @PostPersist

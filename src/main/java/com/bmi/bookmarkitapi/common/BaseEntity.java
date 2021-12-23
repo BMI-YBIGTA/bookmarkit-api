@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 
 @EntityListeners(AuditingEntityListener.class)
 @MappedSuperclass
-public abstract class BaseEntity extends AbstractAggregateRoot {
+public abstract class BaseEntity extends AbstractAggregateRoot<BaseEntity> {
     @CreatedDate
     private LocalDateTime createdDate;
 

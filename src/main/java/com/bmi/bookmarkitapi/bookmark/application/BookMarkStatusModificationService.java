@@ -13,15 +13,15 @@ public class BookMarkStatusModificationService {
     private final BookMarkQueryService queryService;
     private final BookMarkCommandService commandService;
 
+    @Transactional
     public void request(Long bookMarkId) {
         BookMark bookMark = queryService.query(bookMarkId);
         bookMark.request();
-        commandService.save(bookMark);
     }
 
+    @Transactional
     public void complete(Long bookMarkId) {
         BookMark bookMark = queryService.query(bookMarkId);
         bookMark.complete();
-        commandService.save(bookMark);
     }
 }
