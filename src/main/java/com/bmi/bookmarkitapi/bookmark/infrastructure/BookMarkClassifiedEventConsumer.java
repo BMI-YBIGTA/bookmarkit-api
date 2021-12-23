@@ -20,7 +20,7 @@ public class BookMarkClassifiedEventConsumer {
         Long bookMarkId = Long.parseLong(stringTokenizer.nextToken());
         String mainCategory = stringTokenizer.nextToken();
         String subCategory = stringTokenizer.nextToken();
-        System.out.println("bookmarkId: " + bookMarkId.toString());
+        System.out.println("bookmarkId: " + bookMarkId);
         System.out.println("mainCategory: " + mainCategory);
         System.out.println("subCategory: " + subCategory);
         bookMarkStatusModificationService.complete(bookMarkId);
