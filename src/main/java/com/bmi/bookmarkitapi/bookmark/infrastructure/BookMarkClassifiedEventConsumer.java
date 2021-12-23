@@ -18,10 +18,12 @@ public class BookMarkClassifiedEventConsumer {
     public void listen(String message) {
         StringTokenizer stringTokenizer = new StringTokenizer(message, "|||");
         Long bookMarkId = Long.parseLong(stringTokenizer.nextToken());
-        String category = stringTokenizer.nextToken();
+        String mainCategory = stringTokenizer.nextToken();
+        String subCategory = stringTokenizer.nextToken();
         System.out.println("bookmarkId: " + bookMarkId.toString());
-        System.out.println("category: " + category);
+        System.out.println("mainCategory: " + mainCategory);
+        System.out.println("subCategory: " + subCategory);
         bookMarkStatusModificationService.complete(bookMarkId);
-        bookMarkCategorySettingService.set(bookMarkId, category);
+        bookMarkCategorySettingService.set(bookMarkId, mainCategory, subCategory);
     }
 }
