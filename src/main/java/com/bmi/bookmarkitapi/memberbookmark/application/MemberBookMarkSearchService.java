@@ -59,6 +59,7 @@ public class MemberBookMarkSearchService {
                         mbm.getTitle(),
                         bookMark.getLink(),
                         bookMark.getContent());
+                bookMarkSearchDto.contentSummary(searchRequest.getSearchText());
                 responseResult.add(bookMarkSearchDto);
             });
         });
