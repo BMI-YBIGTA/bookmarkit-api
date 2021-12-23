@@ -13,7 +13,7 @@ class CategoryMigrationServiceTest {
     CategoryMigrationService categoryMigrationService;
 
     @Test
-    void migrate() throws IOException {
+    void migrate() {
         categoryMigrationService.migrate();
     }
 }

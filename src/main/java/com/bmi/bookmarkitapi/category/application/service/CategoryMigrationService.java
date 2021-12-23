@@ -24,15 +24,14 @@ public class CategoryMigrationService {
     private final CategoryQueryService categoryQueryService;
     private final CategoryCommandService categoryCommandService;
 
-    public void migrate() throws IOException {
+    public void migrate() {
         InputStreamReader reader = new InputStreamReader(
                 new BOMInputStream(getClass().getClassLoader().getResourceAsStream("category.csv")),
                 StandardCharsets.UTF_8
         );
-        CSVParser parser = new CSVParser(reader, CSVFormat.EXCEL.withHeader());
         List<Category> categories = new ArrayList<>();
 
-        try {
+        try (reader; CSVParser parser = new CSVParser(reader, CSVFormat.EXCEL.withHeader())) {
             parser.forEach(row -> {
                 String mainCategory = row.get("mainCategory").trim();
                 String subCategory = row.get("subCategory").trim();
@@ -44,9 +43,8 @@ public class CategoryMigrationService {
 
             categoryCommandService.saveAll(categories);
             log.info("Number of saved categories: " + categories.size());
-        } finally {
-            parser.close();
-            reader.close();
+        } catch (IOException e) {
+            log.error("Exception occurs when reading file " + e.getMessage());
         }
     }
 }
