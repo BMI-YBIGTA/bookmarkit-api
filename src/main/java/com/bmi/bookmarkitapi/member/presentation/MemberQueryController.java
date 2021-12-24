@@ -4,11 +4,9 @@ import com.bmi.bookmarkitapi.common.dto.Response;
 import com.bmi.bookmarkitapi.member.application.model.MemberDto;
 import com.bmi.bookmarkitapi.member.application.service.MemberInfoQueryService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor

@@ -12,6 +12,7 @@ import com.bmi.bookmarkitapi.memberbookmark.application.model.MemberBookMarkQuer
 import com.bmi.bookmarkitapi.memberbookmark.application.model.MemberBookMarkSearchRequest;
 import com.bmi.bookmarkitapi.memberbookmark.domain.model.MemberBookMark;
 import com.bmi.bookmarkitapi.memberbookmark.domain.service.MemberBookMarkQueryService;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/memberbookmark")
 public class MemberBookMarkQueryController extends BaseQueryController<MemberBookMark> {
