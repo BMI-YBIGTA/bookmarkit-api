@@ -21,12 +21,6 @@ public class MemberDto {
         }
 
         @Data
-        public static class Login {
-            private String email;
-            private String password;
-        }
-
-        @Data
         public static class ModifyInfo {
             private String email;
             private String name;
