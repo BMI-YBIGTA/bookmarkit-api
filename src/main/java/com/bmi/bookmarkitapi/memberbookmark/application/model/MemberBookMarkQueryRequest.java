@@ -7,14 +7,14 @@ import java.util.Optional;
 @Data
 public class MemberBookMarkQueryRequest {
     public Long memberId;
-    public Optional<String> category;
+    public Optional<String> mainCategory;
 
-    public MemberBookMarkQueryRequest(Long memberId, String category) {
+    public MemberBookMarkQueryRequest(Long memberId, String mainCategory) {
         this.memberId = memberId;
-        this.category = Optional.of(category);
+        this.mainCategory = Optional.of(mainCategory);
     }
     public MemberBookMarkQueryRequest(Long memberId){
         this.memberId = memberId;
-        this.category=Optional.empty();
+        this.mainCategory=Optional.empty();
     }
 }

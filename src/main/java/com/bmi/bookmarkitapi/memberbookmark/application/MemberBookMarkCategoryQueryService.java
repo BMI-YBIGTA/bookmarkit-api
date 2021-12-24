@@ -1,10 +1,7 @@
 package com.bmi.bookmarkitapi.memberbookmark.application;
 
 import com.bmi.bookmarkitapi.bookmark.domain.model.BookMark;
-import com.bmi.bookmarkitapi.memberbookmark.application.model.BookMarkQueryDto;
-import com.bmi.bookmarkitapi.memberbookmark.application.model.BookMarkQueryRequest;
-import com.bmi.bookmarkitapi.memberbookmark.application.model.BookMarkSearchDto;
-import com.bmi.bookmarkitapi.memberbookmark.application.model.MemberBookMarkQueryRequest;
+import com.bmi.bookmarkitapi.memberbookmark.application.model.*;
 import com.bmi.bookmarkitapi.memberbookmark.domain.model.MemberBookMark;
 import com.bmi.bookmarkitapi.memberbookmark.domain.service.MemberBookMarkQueryService;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +19,7 @@ public class MemberBookMarkCategoryQueryService {
     private final MemberBookMarkQueryService queryService;
     private final IBookMarkCategoryQueryService categoryQueryService;
 
-    public List<BookMarkQueryDto> query(MemberBookMarkQueryRequest queryRequest){
+    public List<MemberBookMarkCategoryQueryDto> query(MemberBookMarkQueryRequest queryRequest){
         List<MemberBookMark> memberBookMarkList = queryService.queryByMember(queryRequest.getMemberId());
         List<Long> bookMarkIdList = memberBookMarkList
                 .stream()
@@ -31,12 +28,12 @@ public class MemberBookMarkCategoryQueryService {
 
         BookMarkQueryRequest request = new BookMarkQueryRequest(
                 bookMarkIdList,
-                queryRequest.getCategory());
+                queryRequest.getMainCategory());
 
         List<BookMark> queryResult = categoryQueryService.query(request);
 
 
-        List<BookMarkQueryDto> responseResult = new ArrayList<>();
+        List<BookMarkQueryDto> bookMarkList = new ArrayList<>();
 
         queryResult.forEach(bookMark -> {
             Optional<MemberBookMark> memberBookMark = memberBookMarkList.stream()
@@ -44,13 +41,35 @@ public class MemberBookMarkCategoryQueryService {
                     .findFirst();
             memberBookMark.ifPresent(mbm -> {
                 BookMarkQueryDto bookMarkQueryDto = new BookMarkQueryDto(
-                        mbm.getId(),
-                        bookMark.getCategory(),
+                        bookMark.getMainCategory(),
+                        bookMark.getSubCategory(),
                         mbm.getTitle(),
-                        bookMark.getLink());
-                responseResult.add(bookMarkQueryDto);
+                        bookMark.getLink(),
+                        bookMark.createDateToString(),
+                        bookMark.getStatus());
+                bookMarkList.add(bookMarkQueryDto);
             });
         });
+
+        List<MemberBookMarkCategoryQueryDto>  responseResult = new ArrayList<>();
+        MemberBookMarkCategoryQueryDto categoryQueryDto = new MemberBookMarkCategoryQueryDto();
+
+        for (BookMarkQueryDto dto : bookMarkList) {
+            if (categoryQueryDto.getMainCategory() == null){
+                categoryQueryDto.setMainCategory(dto.getMainCategory());
+                categoryQueryDto.bookMarkList.add(dto);
+            }
+            else if(!Objects.equals(categoryQueryDto.getMainCategory(),
+                    dto.getMainCategory())){
+                responseResult.add(categoryQueryDto);
+                categoryQueryDto = new MemberBookMarkCategoryQueryDto();
+                categoryQueryDto.setMainCategory(dto.getMainCategory());
+                categoryQueryDto.bookMarkList.add(dto);
+            }
+            else{
+                categoryQueryDto.bookMarkList.add(dto);
+            }
+        }
 
         return responseResult;
     }

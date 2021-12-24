@@ -9,10 +9,10 @@ import java.util.Optional;
 @Data
 public class BookMarkQueryRequest {
     public List<Long> bookMarkIdList;
-    public Optional<String> category;
+    public Optional<String> mainCategory;
 
-    public BookMarkQueryRequest(List<Long> bookMarkIdList, Optional<String> category) {
+    public BookMarkQueryRequest(List<Long> bookMarkIdList, Optional<String> mainCategory) {
         this.bookMarkIdList = bookMarkIdList;
-        this.category = category;
+        this.mainCategory = mainCategory;
     }
 }

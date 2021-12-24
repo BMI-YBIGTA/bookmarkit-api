@@ -9,6 +9,6 @@ import java.util.Optional;
 public interface BookMarkRepository extends BaseRepository<BookMark> {
 
     Optional<BookMark> findByLink(String link);
-    List<BookMark> findByIdInAndCategoryEquals(List<Long> bookMarkIdList , String category);
-    List<BookMark> findByIdIn(List<Long> bookMarkIdList);
+    List<BookMark> findByIdInAndMainCategoryEqualsOrderBySubCategoryAscCreatedDateAsc(List<Long> bookMarkIdList , String mainCategory);
+    List<BookMark> findByIdInOrderByMainCategoryAscSubCategoryAscCreatedDateAsc(List<Long> bookMarkIdList);
 }

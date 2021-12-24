@@ -54,11 +54,12 @@ public class MemberBookMarkSearchService {
                     .findFirst();
             memberBookMark.ifPresent(mbm -> {
                 BookMarkSearchDto bookMarkSearchDto = new BookMarkSearchDto(
-                        mbm.getId(),
-                        bookMark.getCategory(),
+                        bookMark.getMainCategory(),
+                        bookMark.getSubCategory(),
                         mbm.getTitle(),
                         bookMark.getLink(),
-                        bookMark.getContent());
+                        bookMark.getContent(),
+                        bookMark.getStatus());
 
                 bookMarkSearchDto.contentSummary(searchRequest.getSearchText());
                 responseResult.add(bookMarkSearchDto);

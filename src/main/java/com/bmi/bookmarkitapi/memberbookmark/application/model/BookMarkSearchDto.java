@@ -1,21 +1,24 @@
 package com.bmi.bookmarkitapi.memberbookmark.application.model;
 
+import com.bmi.bookmarkitapi.bookmark.domain.model.BookMarkStatus;
 import lombok.Data;
 
 @Data
 public class BookMarkSearchDto {
-    public Long memberBookMarkId;
-    public String category;
+    public String mainCategory;
+    public String subCategory;
     public String title;
     public String link;
     public String content;
+    public BookMarkStatus status;
 
-    public BookMarkSearchDto(Long memberBookMarkId, String category, String title, String link, String content) {
-        this.memberBookMarkId = memberBookMarkId;
-        this.category = category;
+    public BookMarkSearchDto(String mainCategory, String subCategory, String title, String link, String content, BookMarkStatus status) {
+        this.mainCategory = mainCategory;
+        this.subCategory = subCategory;
         this.title = title;
         this.link = link;
         this.content = content;
+        this.status = status;
     }
 
     public void contentSummary(String searchText){

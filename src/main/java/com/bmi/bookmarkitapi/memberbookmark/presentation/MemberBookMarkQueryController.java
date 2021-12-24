@@ -4,10 +4,7 @@ import com.bmi.bookmarkitapi.common.BaseQueryController;
 import com.bmi.bookmarkitapi.common.dto.Response;
 import com.bmi.bookmarkitapi.memberbookmark.application.MemberBookMarkCategoryQueryService;
 import com.bmi.bookmarkitapi.memberbookmark.application.MemberBookMarkSearchService;
-import com.bmi.bookmarkitapi.memberbookmark.application.model.BookMarkQueryDto;
-import com.bmi.bookmarkitapi.memberbookmark.application.model.BookMarkSearchDto;
-import com.bmi.bookmarkitapi.memberbookmark.application.model.MemberBookMarkQueryRequest;
-import com.bmi.bookmarkitapi.memberbookmark.application.model.MemberBookMarkSearchRequest;
+import com.bmi.bookmarkitapi.memberbookmark.application.model.*;
 import com.bmi.bookmarkitapi.memberbookmark.domain.model.MemberBookMark;
 import com.bmi.bookmarkitapi.memberbookmark.domain.service.MemberBookMarkQueryService;
 import org.springframework.data.domain.Page;
@@ -47,7 +44,7 @@ public class MemberBookMarkQueryController extends BaseQueryController<MemberBoo
     }
 
     @GetMapping("/{id}/query")
-    public Response.ItemList<BookMarkQueryDto> query(
+    public Response.ItemList<MemberBookMarkCategoryQueryDto> query(
             @PathVariable Long id,
             @RequestParam(name = "category" , defaultValue = "") String category
     ){
@@ -58,8 +55,8 @@ public class MemberBookMarkQueryController extends BaseQueryController<MemberBoo
         else{
             queryRequest = new MemberBookMarkQueryRequest(id,category);
         }
-        List<BookMarkQueryDto> list = categoryQueryService.query(queryRequest);
-        return new Response.ItemList<BookMarkQueryDto>(list);
+        List<MemberBookMarkCategoryQueryDto> list = categoryQueryService.query(queryRequest);
+        return new Response.ItemList<MemberBookMarkCategoryQueryDto>(list);
     }
 
 }

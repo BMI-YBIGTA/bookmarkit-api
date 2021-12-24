@@ -45,10 +45,10 @@ class MemberBookMarkCategoryQueryServiceTest {
         Member member2 = memberRepository.save(new Member("sample2@gmail.com","sample2","sample2"));
 
         BookMark bookMark1 = bookMarkRepository.save(new BookMark("header1", "http://link1", "contents1. hello,bookmark! bye. content"));
-        bookMark1.setCategory("computer science");
+        bookMark1.setCategory("computer science","algorithm");
 
         BookMark bookMark2 = bookMarkRepository.save(new BookMark("header2", "http://link2", "contents2"));
-        bookMark2.setCategory("data science");
+        bookMark2.setCategory("data science","CNN");
 
         MemberBookMark memberBookMark1 =
                 memberBookMarkRepository.save(new MemberBookMark(member1.getId(),bookMark1.getId(),"title1"));

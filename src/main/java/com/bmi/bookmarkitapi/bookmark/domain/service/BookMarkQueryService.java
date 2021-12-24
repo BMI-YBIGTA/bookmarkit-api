@@ -7,9 +7,12 @@ import com.bmi.bookmarkitapi.bookmark.domain.repository.BookMarkRepository;
 import com.bmi.bookmarkitapi.common.BaseQueryService;
 import com.bmi.bookmarkitapi.common.BaseRepository;
 import com.bmi.bookmarkitapi.common.exception.NotFoundException;
+import com.bmi.bookmarkitapi.memberbookmark.application.model.BookMarkQueryRequest;
+import com.bmi.bookmarkitapi.memberbookmark.application.model.BookMarkSearchRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -28,5 +31,25 @@ public class BookMarkQueryService  extends BaseQueryService<BookMark> {
 
     public BookMark query(String link) {
         return bookMarkRepository.findByLink(link).orElseThrow(() -> new BookMarkNotFoundException());
+    }
+
+    public List<BookMark> query(BookMarkSearchRequest request){
+        return customRepository.search(
+                request.getBookMarkIdList(),
+                request.getTitleContainsBookMarkIdList(),
+                request.getSearchText(),
+                request.getPageable()
+        );
+    }
+
+    public List<BookMark> query(BookMarkQueryRequest request){
+        if(request.getMainCategory().isPresent()){
+            return bookMarkRepository.findByIdInAndMainCategoryEqualsOrderBySubCategoryAscCreatedDateAsc(
+                    request.getBookMarkIdList(),
+                    request.getMainCategory().get());
+        }
+        else{
+            return bookMarkRepository.findByIdInOrderByMainCategoryAscSubCategoryAscCreatedDateAsc(request.getBookMarkIdList());
+        }
     }
 }
