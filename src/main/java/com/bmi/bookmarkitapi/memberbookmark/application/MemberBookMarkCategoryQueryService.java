@@ -7,10 +7,7 @@ import com.bmi.bookmarkitapi.memberbookmark.domain.service.MemberBookMarkQuerySe
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -19,7 +16,7 @@ public class MemberBookMarkCategoryQueryService {
     private final MemberBookMarkQueryService queryService;
     private final IBookMarkListQueryService listQueryService;
 
-    public List<MemberBookMarkCategoryQueryDto> query(MemberBookMarkQueryRequest queryRequest){
+    public Map<String, Map<String, List<BookMarkQueryDto>>> query(MemberBookMarkQueryRequest queryRequest){
         List<MemberBookMark> memberBookMarkList = queryService.queryByMember(queryRequest.getMemberId());
         List<Long> bookMarkIdList = memberBookMarkList
                 .stream()
@@ -75,6 +72,21 @@ public class MemberBookMarkCategoryQueryService {
             responseResult.add(categoryQueryDto);
         }
 
-        return responseResult;
+        System.out.println(bookMarkList);
+
+        Map<String, Map<String, List<BookMarkQueryDto>>> map = new HashMap<>();
+
+        Map<String, List<BookMarkQueryDto>> groupByMainCategory = bookMarkList.stream()
+                .collect(Collectors.groupingBy(BookMarkQueryDto::getMainCategory));
+
+        for (Map.Entry<String, List<BookMarkQueryDto>> entry : groupByMainCategory.entrySet()) {
+            Map<String, List<BookMarkQueryDto>> groupBySubCategory = entry.getValue()
+                    .stream()
+                    .collect(Collectors.groupingBy(BookMarkQueryDto::getSubCategory));
+
+            map.put(entry.getKey(), groupBySubCategory);
+        }
+
+        return map;
     }
 }

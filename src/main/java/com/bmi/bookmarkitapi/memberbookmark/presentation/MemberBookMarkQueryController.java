@@ -13,6 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 @RestController
@@ -48,7 +49,7 @@ public class MemberBookMarkQueryController extends BaseQueryController<MemberBoo
     }
 
     @GetMapping("/{id}/query")
-    public Response.ItemList<MemberBookMarkCategoryQueryDto> query(
+    public Response.Item<Map<String, Map<String, List<BookMarkQueryDto>>>> query(
             @PathVariable Long id,
             @RequestParam(name = "category" , defaultValue = "") String category
     ){
@@ -59,8 +60,8 @@ public class MemberBookMarkQueryController extends BaseQueryController<MemberBoo
         else{
             queryRequest = new MemberBookMarkQueryRequest(id,category);
         }
-        List<MemberBookMarkCategoryQueryDto> list = categoryQueryService.query(queryRequest);
-        return new Response.ItemList<MemberBookMarkCategoryQueryDto>(list);
+        Map<String, Map<String, List<BookMarkQueryDto>>> map = categoryQueryService.query(queryRequest);
+        return new Response.Item<>(map);
     }
 
     @GetMapping("/{id}/recent")
