@@ -12,22 +12,20 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-
 @Service
-public class BookMarkQueryService  extends BaseQueryService<BookMark> {
+public class BookMarkQueryService extends BaseQueryService<BookMark> {
 
     private final BookMarkRepository bookMarkRepository;
     private final BookMarkCustomRepository customRepository;
 
-    public BookMarkQueryService(BookMarkRepository bookMarkRepository ,
-                                BookMarkCustomRepository customRepository) {
+    public BookMarkQueryService(BookMarkRepository bookMarkRepository, BookMarkCustomRepository customRepository) {
         super(bookMarkRepository, new BookMarkNotFoundException());
         this.bookMarkRepository = bookMarkRepository;
         this.customRepository = customRepository;
     }
 
     public BookMark query(String link) {
-        return bookMarkRepository.findByLink(link).orElseThrow(() -> new BookMarkNotFoundException());
+        return bookMarkRepository.findByLink(link).orElseThrow(BookMarkNotFoundException::new);
     }
 
     public List<BookMark> query(BookMarkSearchRequest request){
@@ -40,14 +38,13 @@ public class BookMarkQueryService  extends BaseQueryService<BookMark> {
     }
 
     public List<BookMark> query(BookMarkCategoryQueryRequest request){
-        if(request.getMainCategory().isPresent()){
-            return bookMarkRepository.findByIdInAndMainCategoryEqualsOrderBySubCategoryAscCreatedDateAsc(
-                    request.getBookMarkIdList(),
-                    request.getMainCategory().get());
-        }
-        else{
+        if (request.getMainCategory().isEmpty()) {
             return bookMarkRepository.findByIdInOrderByMainCategoryAscSubCategoryAscCreatedDateAsc(request.getBookMarkIdList());
         }
+        return bookMarkRepository.findByIdInAndMainCategoryEqualsOrderBySubCategoryAscCreatedDateAsc(
+                request.getBookMarkIdList(),
+                request.getMainCategory()
+        );
     }
 
     public List<BookMark> query(BookMarkRecentQueryRequest request){

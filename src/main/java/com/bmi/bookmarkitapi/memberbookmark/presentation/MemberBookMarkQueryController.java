@@ -6,17 +6,22 @@ import com.bmi.bookmarkitapi.common.security.JwtTokenProvider;
 import com.bmi.bookmarkitapi.memberbookmark.application.MemberBookMarkCategoryQueryService;
 import com.bmi.bookmarkitapi.memberbookmark.application.MemberBookMarkRecentQueryService;
 import com.bmi.bookmarkitapi.memberbookmark.application.MemberBookMarkSearchService;
-import com.bmi.bookmarkitapi.memberbookmark.application.model.*;
+import com.bmi.bookmarkitapi.memberbookmark.application.model.BookMarkQueryDto;
+import com.bmi.bookmarkitapi.memberbookmark.application.model.BookMarkSearchDto;
+import com.bmi.bookmarkitapi.memberbookmark.application.model.MemberBookMarkQueryRequest;
+import com.bmi.bookmarkitapi.memberbookmark.application.model.MemberBookMarkSearchRequest;
 import com.bmi.bookmarkitapi.memberbookmark.domain.model.MemberBookMark;
 import com.bmi.bookmarkitapi.memberbookmark.domain.service.MemberBookMarkQueryService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 @RestController
 @RequestMapping("/api/memberbookmark")
@@ -46,40 +51,32 @@ public class MemberBookMarkQueryController extends BaseQueryController<MemberBoo
             @RequestParam(name = "size", defaultValue = "100") int size,
             @RequestParam(name = "query") String searchText,
             HttpServletRequest httpServletRequest
-    ){
+    ) {
         Long id = jwtTokenProvider.getMemberId(jwtTokenProvider.extractToken(httpServletRequest));
-        Page<BookMarkSearchDto> tempPage =
-                searchService.search(new MemberBookMarkSearchRequest(id, searchText), PageRequest.of(page, size));
+
+        Page<BookMarkSearchDto> tempPage = searchService.search(
+                new MemberBookMarkSearchRequest(id, searchText), PageRequest.of(page, size)
+        );
 
         return new Response.Page<>(tempPage.getContent(), tempPage.getTotalPages());
     }
 
     @GetMapping("/query")
     public Response.Item<Map<String, Map<String, List<BookMarkQueryDto>>>> query(
-            @RequestParam(name = "category" , defaultValue = "") String category,
+            @RequestParam(name = "category", defaultValue = "") String category,
             HttpServletRequest httpServletRequest
-    ){
+    ) {
         Long id = jwtTokenProvider.getMemberId(jwtTokenProvider.extractToken(httpServletRequest));
-        MemberBookMarkQueryRequest queryRequest;
-        if (category.isEmpty()){
-            queryRequest = new MemberBookMarkQueryRequest(id);
-        }
-        else{
-            queryRequest = new MemberBookMarkQueryRequest(id,category);
-        }
-        Map<String, Map<String, List<BookMarkQueryDto>>> map = categoryQueryService.query(queryRequest);
-        return new Response.Item<>(map);
+
+        return new Response.Item<>(categoryQueryService.query(new MemberBookMarkQueryRequest(id, category)));
     }
 
     @GetMapping("/recent")
     public Response.Item<Map<String,List<BookMarkQueryDto>>> query(
             HttpServletRequest httpServletRequest
-    ){
+    ) {
         Long id = jwtTokenProvider.getMemberId(jwtTokenProvider.extractToken(httpServletRequest));
-        MemberBookMarkQueryRequest queryRequest = new MemberBookMarkQueryRequest(id);
-        Map<String, List<BookMarkQueryDto>> map = recentQueryService.query(queryRequest);
 
-        return new Response.Item<>(map);
+        return new Response.Item<>(recentQueryService.query(new MemberBookMarkQueryRequest(id)));
     }
-
 }

@@ -1,13 +1,17 @@
 package com.bmi.bookmarkitapi.memberbookmark.application;
 
-import com.bmi.bookmarkitapi.bookmark.domain.model.BookMark;
-import com.bmi.bookmarkitapi.memberbookmark.application.model.*;
+import com.bmi.bookmarkitapi.memberbookmark.application.model.BookMarkCategoryQueryRequest;
+import com.bmi.bookmarkitapi.memberbookmark.application.model.BookMarkQueryDto;
+import com.bmi.bookmarkitapi.memberbookmark.application.model.MemberBookMarkQueryRequest;
+import com.bmi.bookmarkitapi.memberbookmark.domain.exception.MemberBookMarkNotFoundException;
 import com.bmi.bookmarkitapi.memberbookmark.domain.model.MemberBookMark;
 import com.bmi.bookmarkitapi.memberbookmark.domain.service.MemberBookMarkQueryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -18,76 +22,42 @@ public class MemberBookMarkCategoryQueryService {
 
     public Map<String, Map<String, List<BookMarkQueryDto>>> query(MemberBookMarkQueryRequest queryRequest){
         List<MemberBookMark> memberBookMarkList = queryService.queryByMember(queryRequest.getMemberId());
-        List<Long> bookMarkIdList = memberBookMarkList
-                .stream()
+        List<Long> bookMarkIdList = memberBookMarkList.stream()
                 .map(MemberBookMark::getBookmarkId)
                 .collect(Collectors.toList());
 
-        BookMarkCategoryQueryRequest request = new BookMarkCategoryQueryRequest(
-                bookMarkIdList,
-                queryRequest.getMainCategory());
+        List<BookMarkQueryDto> bookMarkList = listQueryService.query(new BookMarkCategoryQueryRequest(bookMarkIdList,
+                        queryRequest.getMainCategory()))
+                .stream()
+                .map(bookMark -> {
+                    MemberBookMark memberBookMark = memberBookMarkList.stream()
+                            .filter(memberBookmark -> memberBookmark.getBookmarkId().equals(bookMark.getId()))
+                            .findFirst()
+                            .orElseThrow(MemberBookMarkNotFoundException::new);
 
-        List<BookMark> queryResult = listQueryService.query(request);
-
-
-
-        List<BookMarkQueryDto> bookMarkList = new ArrayList<>();
-
-
-        queryResult.forEach(bookMark -> {
-            Optional<MemberBookMark> memberBookMark = memberBookMarkList.stream()
-                    .filter(mbm -> Objects.equals(mbm.getBookmarkId(), bookMark.getId()))
-                    .findFirst();
-            memberBookMark.ifPresent(mbm -> {
-                BookMarkQueryDto bookMarkQueryDto = new BookMarkQueryDto(
-                        bookMark.getMainCategory(),
-                        bookMark.getSubCategory(),
-                        mbm.getTitle(),
-                        bookMark.getLink(),
-                        bookMark.createDateToString(),
-                        bookMark.getStatus());
-                bookMarkList.add(bookMarkQueryDto);
-            });
-        });
-
-
-
-        List<MemberBookMarkCategoryQueryDto>  responseResult = new ArrayList<>();
-        MemberBookMarkCategoryQueryDto categoryQueryDto = new MemberBookMarkCategoryQueryDto();
-
-        for (BookMarkQueryDto dto : bookMarkList) {
-            if (categoryQueryDto.getMainCategory() == null){
-                categoryQueryDto.setMainCategory(dto.getMainCategory());
-                categoryQueryDto.bookMarkList.add(dto);
-            }
-            else if(!Objects.equals(categoryQueryDto.getMainCategory(),
-                    dto.getMainCategory())){
-                responseResult.add(categoryQueryDto);
-                categoryQueryDto = new MemberBookMarkCategoryQueryDto();
-                categoryQueryDto.setMainCategory(dto.getMainCategory());
-                categoryQueryDto.bookMarkList.add(dto);
-            }
-            else{
-                categoryQueryDto.bookMarkList.add(dto);
-            }
-        }
-        if(categoryQueryDto.bookMarkList.size()>=1){
-            responseResult.add(categoryQueryDto);
-        }
-
-        System.out.println(bookMarkList);
+                    return new BookMarkQueryDto(
+                            memberBookMark.getBookmarkId(),
+                            bookMark.getMainCategory(),
+                            bookMark.getSubCategory(),
+                            memberBookMark.getTitle(),
+                            bookMark.getLink(),
+                            bookMark.dateTimeToString(),
+                            bookMark.getStatus()
+                    );
+                })
+                .collect(Collectors.toList());
 
         Map<String, Map<String, List<BookMarkQueryDto>>> map = new HashMap<>();
 
-        Map<String, List<BookMarkQueryDto>> groupByMainCategory = bookMarkList.stream()
+        Map<String, List<BookMarkQueryDto>> groupedByMainCategory = bookMarkList.stream()
                 .collect(Collectors.groupingBy(BookMarkQueryDto::getMainCategory));
 
-        for (Map.Entry<String, List<BookMarkQueryDto>> entry : groupByMainCategory.entrySet()) {
-            Map<String, List<BookMarkQueryDto>> groupBySubCategory = entry.getValue()
+        for (Map.Entry<String, List<BookMarkQueryDto>> entry : groupedByMainCategory.entrySet()) {
+            Map<String, List<BookMarkQueryDto>> groupedBySubCategory = entry.getValue()
                     .stream()
                     .collect(Collectors.groupingBy(BookMarkQueryDto::getSubCategory));
 
-            map.put(entry.getKey(), groupBySubCategory);
+            map.put(entry.getKey(), groupedBySubCategory);
         }
 
         return map;
