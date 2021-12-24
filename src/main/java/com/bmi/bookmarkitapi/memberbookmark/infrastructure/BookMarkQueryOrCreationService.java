@@ -24,7 +24,7 @@ public class BookMarkQueryOrCreationService implements IBookMarkQueryOrCreationS
             return new BookMarkQueryOrCreationResponse(foundBookmark.getId());
         } catch (BookMarkNotFoundException exception) {
             BookMark createdBookmark = bookMarkRegistrationService.register(
-                    new BookMarkRegistrationRequest(request.header, request.link, request.content)
+                    new BookMarkRegistrationRequest(request.link)
             );
 
             return new BookMarkQueryOrCreationResponse(createdBookmark.getId());

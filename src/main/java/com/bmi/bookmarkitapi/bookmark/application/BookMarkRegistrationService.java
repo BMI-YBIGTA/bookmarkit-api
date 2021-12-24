@@ -12,6 +12,6 @@ public class BookMarkRegistrationService {
     private final BookMarkCommandService commandService;
 
     public BookMark register(BookMarkRegistrationRequest request){
-        return commandService.create(request.getHeader(), request.getLink(), request.getContent());
+        return commandService.create(request.getLink());
     }
 }

@@ -7,11 +7,10 @@ import lombok.Data;
 @AllArgsConstructor
 public class BookMarkRegisteredEvent {
     public Long bookMarkId;
-    public String header;
-    public String content;
+    public String link;
 
     @Override
     public String toString() {
-        return bookMarkId.toString() + "|||" + header + "|||" + content;
+        return bookMarkId.toString() + "|||" + link;
     }
 }
