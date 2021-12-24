@@ -20,7 +20,7 @@ public class MemberBookMarkCategoryQueryService {
         List<MemberBookMark> memberBookMarkList = queryService.queryByMember(queryRequest.getMemberId());
         List<Long> bookMarkIdList = memberBookMarkList
                 .stream()
-                .map(MemberBookMark::getMemberId)
+                .map(MemberBookMark::getBookmarkId)
                 .collect(Collectors.toList());
 
         BookMarkCategoryQueryRequest request = new BookMarkCategoryQueryRequest(
@@ -30,7 +30,9 @@ public class MemberBookMarkCategoryQueryService {
         List<BookMark> queryResult = listQueryService.query(request);
 
 
+
         List<BookMarkQueryDto> bookMarkList = new ArrayList<>();
+
 
         queryResult.forEach(bookMark -> {
             Optional<MemberBookMark> memberBookMark = memberBookMarkList.stream()
@@ -47,6 +49,7 @@ public class MemberBookMarkCategoryQueryService {
                 bookMarkList.add(bookMarkQueryDto);
             });
         });
+
 
 
         List<MemberBookMarkCategoryQueryDto>  responseResult = new ArrayList<>();

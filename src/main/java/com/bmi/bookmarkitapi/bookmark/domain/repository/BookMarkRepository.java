@@ -11,5 +11,5 @@ public interface BookMarkRepository extends BaseRepository<BookMark> {
     Optional<BookMark> findByLink(String link);
     List<BookMark> findByIdInAndMainCategoryEqualsOrderBySubCategoryAscCreatedDateAsc(List<Long> bookMarkIdList , String mainCategory);
     List<BookMark> findByIdInOrderByMainCategoryAscSubCategoryAscCreatedDateAsc(List<Long> bookMarkIdList);
-    List<BookMark> findTop5ByIdInOrderByCreatedDateAsc(List<Long> bookMarkIdList);
+    List<BookMark> findTop20ByIdInOrderByCreatedDateAsc(List<Long> bookMarkIdList);
 }

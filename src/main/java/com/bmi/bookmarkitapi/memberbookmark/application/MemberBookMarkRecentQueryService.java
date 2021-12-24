@@ -10,10 +10,7 @@ import com.bmi.bookmarkitapi.memberbookmark.domain.service.MemberBookMarkQuerySe
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -22,11 +19,11 @@ public class MemberBookMarkRecentQueryService {
     private final MemberBookMarkQueryService queryService;
     private final IBookMarkListQueryService listQueryService;
 
-    public List<BookMarkQueryDto> query(MemberBookMarkQueryRequest queryRequest){
+    public Map<String, List<BookMarkQueryDto>> query(MemberBookMarkQueryRequest queryRequest){
         List<MemberBookMark> memberBookMarkList = queryService.queryByMember(queryRequest.getMemberId());
         List<Long> bookMarkIdList = memberBookMarkList
                 .stream()
-                .map(MemberBookMark::getMemberId)
+                .map(MemberBookMark::getBookmarkId)
                 .collect(Collectors.toList());
 
         BookMarkRecentQueryRequest request = new BookMarkRecentQueryRequest(bookMarkIdList);
@@ -51,6 +48,11 @@ public class MemberBookMarkRecentQueryService {
             });
         });
 
-        return responseList;
+        Map<String, List<BookMarkQueryDto>> map = responseList.stream()
+                .collect(Collectors.groupingBy(BookMarkQueryDto::getCreatedDate));
+
+
+
+        return map;
     }
 }

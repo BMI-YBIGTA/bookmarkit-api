@@ -18,6 +18,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -50,12 +51,12 @@ class MemberBookMarkCategoryQueryServiceTest {
         MemberBookMark memberBookMark1 =
                 memberBookMarkRepository.save(new MemberBookMark(member1.getId(),bookMark1.getId(),"title1"));
         MemberBookMark memberBookMark2 =
-                memberBookMarkRepository.save(new MemberBookMark(member2.getId(),bookMark2.getId(),"title2"));
+                memberBookMarkRepository.save(new MemberBookMark(member1.getId(),bookMark2.getId(),"title2"));
 
-        List<MemberBookMarkCategoryQueryDto> queryResult = categoryQueryService.query(new MemberBookMarkQueryRequest(member1.getId(), "computer science"));
+        Map<String, Map<String, List<BookMarkQueryDto>>> queryResult = categoryQueryService.query(new MemberBookMarkQueryRequest(member1.getId()));
 
         System.out.println(queryResult);
-        Assertions.assertThat(queryResult.size()).isEqualTo(1);
+        Assertions.assertThat(queryResult.size()).isEqualTo(2);
 
 
         Page<BookMarkSearchDto> searchResult = searchService.search(new MemberBookMarkSearchRequest(member1.getId(), "algorithm"), PageRequest.of(0, 20));

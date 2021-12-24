@@ -31,7 +31,7 @@ public class MemberBookMarkSearchService {
                 = queryService.queryByTitleContains(searchRequest.getMemberId(),searchRequest.getSearchText());
         List<Long> bookMarkIdList = memberBookMarkList
                 .stream()
-                .map(MemberBookMark::getMemberId)
+                .map(MemberBookMark::getBookmarkId)
                 .collect(Collectors.toList());
         List<Long> titleContainsBookMarkIdList = titleContainsMemberBookMarkList
                 .stream()
