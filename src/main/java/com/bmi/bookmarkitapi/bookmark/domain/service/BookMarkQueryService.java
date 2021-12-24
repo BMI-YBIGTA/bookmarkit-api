@@ -51,6 +51,6 @@ public class BookMarkQueryService  extends BaseQueryService<BookMark> {
     }
 
     public List<BookMark> query(BookMarkRecentQueryRequest request){
-        return bookMarkRepository.findTop5ByIdInOrderByCreatedDateAsc(request.getBookMarkIdList());
+        return bookMarkRepository.findTop20ByIdInOrderByCreatedDateAsc(request.getBookMarkIdList());
     }
 }

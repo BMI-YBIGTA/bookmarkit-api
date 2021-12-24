@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 @RestController
@@ -71,14 +72,14 @@ public class MemberBookMarkQueryController extends BaseQueryController<MemberBoo
     }
 
     @GetMapping("/recent")
-    public Response.ItemList<BookMarkQueryDto> query(
+    public Response.Item<Map<String,List<BookMarkQueryDto>>> query(
             HttpServletRequest httpServletRequest
     ){
         Long id = jwtTokenProvider.getMemberId(jwtTokenProvider.extractToken(httpServletRequest));
         MemberBookMarkQueryRequest queryRequest = new MemberBookMarkQueryRequest(id);
-        List<BookMarkQueryDto> list = recentQueryService.query(queryRequest);
+        Map<String, List<BookMarkQueryDto>> map = recentQueryService.query(queryRequest);
 
-        return new Response.ItemList<>(list);
+        return new Response.Item<>(map);
     }
 
 }
