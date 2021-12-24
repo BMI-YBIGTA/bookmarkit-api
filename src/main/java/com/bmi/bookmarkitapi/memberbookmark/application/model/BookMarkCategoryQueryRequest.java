@@ -7,11 +7,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Data
-public class BookMarkQueryRequest {
+public class BookMarkCategoryQueryRequest {
     public List<Long> bookMarkIdList;
     public Optional<String> mainCategory;
 
-    public BookMarkQueryRequest(List<Long> bookMarkIdList, Optional<String> mainCategory) {
+    public BookMarkCategoryQueryRequest(List<Long> bookMarkIdList, Optional<String> mainCategory) {
         this.bookMarkIdList = bookMarkIdList;
         this.mainCategory = mainCategory;
     }

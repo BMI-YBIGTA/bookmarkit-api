@@ -4,10 +4,7 @@ import com.bmi.bookmarkitapi.bookmark.domain.model.BookMark;
 import com.bmi.bookmarkitapi.bookmark.domain.repository.BookMarkRepository;
 import com.bmi.bookmarkitapi.member.domain.model.Member;
 import com.bmi.bookmarkitapi.member.domain.repository.MemberRepository;
-import com.bmi.bookmarkitapi.memberbookmark.application.model.BookMarkQueryDto;
-import com.bmi.bookmarkitapi.memberbookmark.application.model.BookMarkSearchDto;
-import com.bmi.bookmarkitapi.memberbookmark.application.model.MemberBookMarkQueryRequest;
-import com.bmi.bookmarkitapi.memberbookmark.application.model.MemberBookMarkSearchRequest;
+import com.bmi.bookmarkitapi.memberbookmark.application.model.*;
 import com.bmi.bookmarkitapi.memberbookmark.domain.model.MemberBookMark;
 import com.bmi.bookmarkitapi.memberbookmark.domain.repository.MemberBookMarkRepository;
 import org.assertj.core.api.Assertions;
@@ -55,14 +52,15 @@ class MemberBookMarkCategoryQueryServiceTest {
         MemberBookMark memberBookMark2 =
                 memberBookMarkRepository.save(new MemberBookMark(member2.getId(),bookMark2.getId(),"title2"));
 
-        List<BookMarkQueryDto> queryResult = categoryQueryService.query(new MemberBookMarkQueryRequest(member1.getId(),"computer science"));
+        List<MemberBookMarkCategoryQueryDto> queryResult = categoryQueryService.query(new MemberBookMarkQueryRequest(member1.getId(), "computer science"));
 
-        Assertions.assertThat(queryResult.size()).isEqualTo(1);
         System.out.println(queryResult);
+        Assertions.assertThat(queryResult.size()).isEqualTo(1);
 
-        Page<BookMarkSearchDto> searchResult = searchService.search(new MemberBookMarkSearchRequest(member1.getId(), "bbboo"), PageRequest.of(0, 20));
 
-        Assertions.assertThat(searchResult.getTotalElements()).isEqualTo(0);
+        Page<BookMarkSearchDto> searchResult = searchService.search(new MemberBookMarkSearchRequest(member1.getId(), "algorithm"), PageRequest.of(0, 20));
+
+        Assertions.assertThat(searchResult.getTotalElements()).isEqualTo(1);
         System.out.println(searchResult.getContent());
 
 

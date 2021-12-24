@@ -5,15 +5,12 @@ import com.bmi.bookmarkitapi.bookmark.domain.model.BookMark;
 import com.bmi.bookmarkitapi.bookmark.domain.repository.BookMarkCustomRepository;
 import com.bmi.bookmarkitapi.bookmark.domain.repository.BookMarkRepository;
 import com.bmi.bookmarkitapi.common.BaseQueryService;
-import com.bmi.bookmarkitapi.common.BaseRepository;
-import com.bmi.bookmarkitapi.common.exception.NotFoundException;
-import com.bmi.bookmarkitapi.memberbookmark.application.model.BookMarkQueryRequest;
+import com.bmi.bookmarkitapi.memberbookmark.application.model.BookMarkCategoryQueryRequest;
+import com.bmi.bookmarkitapi.memberbookmark.application.model.BookMarkRecentQueryRequest;
 import com.bmi.bookmarkitapi.memberbookmark.application.model.BookMarkSearchRequest;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 
 @Service
@@ -42,7 +39,7 @@ public class BookMarkQueryService  extends BaseQueryService<BookMark> {
         );
     }
 
-    public List<BookMark> query(BookMarkQueryRequest request){
+    public List<BookMark> query(BookMarkCategoryQueryRequest request){
         if(request.getMainCategory().isPresent()){
             return bookMarkRepository.findByIdInAndMainCategoryEqualsOrderBySubCategoryAscCreatedDateAsc(
                     request.getBookMarkIdList(),
@@ -51,5 +48,9 @@ public class BookMarkQueryService  extends BaseQueryService<BookMark> {
         else{
             return bookMarkRepository.findByIdInOrderByMainCategoryAscSubCategoryAscCreatedDateAsc(request.getBookMarkIdList());
         }
+    }
+
+    public List<BookMark> query(BookMarkRecentQueryRequest request){
+        return bookMarkRepository.findTop5ByIdInOrderByCreatedDateAsc(request.getBookMarkIdList());
     }
 }
