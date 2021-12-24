@@ -2,6 +2,7 @@ package com.bmi.bookmarkitapi.memberbookmark.presentation;
 
 import com.bmi.bookmarkitapi.common.BaseQueryController;
 import com.bmi.bookmarkitapi.common.dto.Response;
+import com.bmi.bookmarkitapi.common.security.JwtTokenProvider;
 import com.bmi.bookmarkitapi.memberbookmark.application.MemberBookMarkCategoryQueryService;
 import com.bmi.bookmarkitapi.memberbookmark.application.MemberBookMarkRecentQueryService;
 import com.bmi.bookmarkitapi.memberbookmark.application.MemberBookMarkSearchService;
@@ -12,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Objects;
 
@@ -21,56 +23,62 @@ public class MemberBookMarkQueryController extends BaseQueryController<MemberBoo
     private final MemberBookMarkSearchService searchService;
     private final MemberBookMarkCategoryQueryService categoryQueryService;
     private final MemberBookMarkRecentQueryService recentQueryService;
+    private final JwtTokenProvider jwtTokenProvider;
 
     public MemberBookMarkQueryController(
             MemberBookMarkQueryService queryService,
             MemberBookMarkSearchService searchService,
             MemberBookMarkCategoryQueryService categoryQueryService,
-            MemberBookMarkRecentQueryService recentQueryService
+            MemberBookMarkRecentQueryService recentQueryService,
+            JwtTokenProvider jwtTokenProvider
     ) {
         super(queryService);
         this.searchService = searchService;
         this.categoryQueryService = categoryQueryService;
         this.recentQueryService = recentQueryService;
+        this.jwtTokenProvider = jwtTokenProvider;
     }
 
-    @GetMapping("/{id}/search")
+    @GetMapping("/search")
     public Response.Page<BookMarkSearchDto> search(
-            @PathVariable Long id,
             @RequestParam(name = "page", defaultValue = "0") int page,
             @RequestParam(name = "size", defaultValue = "100") int size,
-            @RequestParam(name = "query") String searchText
+            @RequestParam(name = "query") String searchText,
+            HttpServletRequest httpServletRequest
     ){
+        Long id = jwtTokenProvider.getMemberId(jwtTokenProvider.extractToken(httpServletRequest));
         Page<BookMarkSearchDto> tempPage =
                 searchService.search(new MemberBookMarkSearchRequest(id, searchText), PageRequest.of(page, size));
 
         return new Response.Page<>(tempPage.getContent(), tempPage.getTotalPages());
     }
 
-    @GetMapping("/{id}/query")
+    @GetMapping("/query")
     public Response.ItemList<MemberBookMarkCategoryQueryDto> query(
-            @PathVariable Long id,
-            @RequestParam(name = "category" , defaultValue = "") String category
+            @RequestParam(name = "category" , defaultValue = "") String category,
+            HttpServletRequest httpServletRequest
     ){
+        Long id = jwtTokenProvider.getMemberId(jwtTokenProvider.extractToken(httpServletRequest));
         MemberBookMarkQueryRequest queryRequest;
-        if (Objects.equals(category, "")){
+        if (category.isEmpty()){
             queryRequest = new MemberBookMarkQueryRequest(id);
         }
         else{
             queryRequest = new MemberBookMarkQueryRequest(id,category);
         }
         List<MemberBookMarkCategoryQueryDto> list = categoryQueryService.query(queryRequest);
-        return new Response.ItemList<MemberBookMarkCategoryQueryDto>(list);
+        return new Response.ItemList<>(list);
     }
 
-    @GetMapping("/{id}/recent")
+    @GetMapping("/recent")
     public Response.ItemList<BookMarkQueryDto> query(
-            @PathVariable Long id
+            HttpServletRequest httpServletRequest
     ){
+        Long id = jwtTokenProvider.getMemberId(jwtTokenProvider.extractToken(httpServletRequest));
         MemberBookMarkQueryRequest queryRequest = new MemberBookMarkQueryRequest(id);
         List<BookMarkQueryDto> list = recentQueryService.query(queryRequest);
 
-        return new Response.ItemList<BookMarkQueryDto>(list);
+        return new Response.ItemList<>(list);
     }
 
 }
