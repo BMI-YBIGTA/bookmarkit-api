@@ -12,9 +12,10 @@ public class BookMarkCategorySettingService {
     private final BookMarkQueryService queryService;
     private final BookMarkCommandService commandService;
 
-    public void set(Long bookMarkId, String mainCategory, String subCategory) {
+    public void set(Long bookMarkId, String content, String mainCategory, String subCategory) {
         BookMark bookMark = queryService.query(bookMarkId);
         bookMark.setCategory(mainCategory, subCategory);
+        bookMark.contentSet(content);
         commandService.save(bookMark);
     }
 }

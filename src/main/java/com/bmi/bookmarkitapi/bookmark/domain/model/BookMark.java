@@ -17,23 +17,26 @@ public class BookMark extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String header;
     private String link;
-    private String content;
+    @Column(columnDefinition = "LONGTEXT")
+    private String content = "";
     private String mainCategory;
     private String subCategory;
 
     @Enumerated(EnumType.STRING)
     private BookMarkStatus status = BookMarkStatus.INIT;
 
-    public BookMark(String header, String link, String content) {
-        this.header = header;
+    public BookMark(String link) {
         this.link = link;
-        this.content = content;
     }
 
     public BookMark statusModify(BookMarkStatus status) {
         this.status = status;
+        return this;
+    }
+
+    public BookMark contentSet(String content) {
+        this.content = content;
         return this;
     }
 
@@ -59,6 +62,6 @@ public class BookMark extends BaseEntity {
 
     @PostPersist
     public void publishBookMarkRegisteredEvent() {
-        registerEvent(new BookMarkRegisteredEvent(id, header, content));
+        registerEvent(new BookMarkRegisteredEvent(id, link));
     }
 }

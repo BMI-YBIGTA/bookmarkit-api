@@ -15,7 +15,7 @@ public class MemberBookMarkRegistrationService {
 
     public MemberBookMark register(Long id, MemberBookMarkRegistrationRequest request) {
         Long bookMarkId = bookMarkQueryOrCreationService.queryOrCreate(
-                new BookMarkQueryOrCreationRequest(request.header, request.link, request.content)
+                new BookMarkQueryOrCreationRequest(request.link)
         ).bookmarkId;
 
         return commandService.create(id, bookMarkId, request.title);
