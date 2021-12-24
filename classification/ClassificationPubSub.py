@@ -1,10 +1,22 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[ ]:
+# In[16]:
+
+
+#!pip3 install pika
+
+
+# In[1]:
 
 
 import pika
+import requests
+from bs4 import BeautifulSoup
+
+
+# In[5]:
+
 
 class BookmarkRegisteredEventConsumer:
     def __init__(self):
@@ -19,13 +31,17 @@ class BookmarkRegisteredEventConsumer:
         print('Received %s' % body)
         splitted = body.decode('utf-8').split('|||')
         bookmark_id = splitted[0]
-        bookmark_header = splitted[1]
-        bookmark_content = splitted[2]
+        bookmark_link = splitted[1]
         print('bookmark_id %s' % bookmark_id)
-        print('bookmark_header %s' % bookmark_header)
+        print('bookmark_link %s' % bookmark_link)
+        webpage = requests.get(bookmark_link)
+        soup = BeautifulSoup(webpage.content, "html.parser")
+        bookmark_content = soup.body.text
         print('bookmark_content %s' % bookmark_content)
+        bookmark_main_category = "AI"
+        bookmark_sub_category = "DeepLearning"
         classified_publisher = BookmarkClassifiedEventPublisher()
-        classified_publisher.publish(bookmark_id + '|||' + 'AI' + '|||' + 'Deep Learning')
+        classified_publisher.publish(bookmark_id + '|||' + bookmark_content + '|||' + bookmark_main_category + '|||' + bookmark_sub_category)
         return
     
     def main(self):
@@ -39,7 +55,11 @@ class BookmarkRegisteredEventConsumer:
         print('BookmarkRegisteredEventConsumer is Starting...')
         chan.start_consuming()
         return
-    
+
+
+# In[3]:
+
+
 class BookmarkClassifiedEventPublisher:
     def __init__(self):
         self.__url = 'localhost'
@@ -60,6 +80,24 @@ class BookmarkClassifiedEventPublisher:
         conn.close()
         return
     
+    
+
+
+# In[10]:
+
+
 consumer = BookmarkRegisteredEventConsumer()
 consumer.main()
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
 
