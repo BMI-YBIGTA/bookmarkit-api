@@ -14,6 +14,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BookMarkListQueryService implements IBookMarkListQueryService {
     private final BookMarkQueryService queryService;
+
     @Override
     public List<BookMark> query(BookMarkCategoryQueryRequest request) {
         return queryService.query(request);

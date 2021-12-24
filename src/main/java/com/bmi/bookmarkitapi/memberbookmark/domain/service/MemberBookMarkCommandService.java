@@ -7,23 +7,12 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class MemberBookMarkCommandService extends BaseCommandService<MemberBookMark> {
-    public MemberBookMarkCommandService(
-            MemberBookMarkRepository repository
-    ) {
+
+    public MemberBookMarkCommandService(MemberBookMarkRepository repository) {
         super(repository);
     }
 
-    public MemberBookMark create(
-            Long memberId,
-            Long bookmarkId,
-            String title
-    ) {
-        return this.save(
-                new MemberBookMark(
-                        memberId,
-                        bookmarkId,
-                        title
-                )
-        );
+    public MemberBookMark create(Long memberId, Long bookmarkId, String title) {
+        return this.save(new MemberBookMark(memberId, bookmarkId, title));
     }
 }

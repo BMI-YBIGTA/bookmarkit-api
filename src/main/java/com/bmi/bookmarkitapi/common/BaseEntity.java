@@ -13,14 +13,14 @@ import java.time.format.DateTimeFormatter;
 @EntityListeners(AuditingEntityListener.class)
 @MappedSuperclass
 public abstract class BaseEntity extends AbstractAggregateRoot<BaseEntity> {
+
     @CreatedDate
     private LocalDateTime createdDate;
 
     @LastModifiedDate
     private LocalDateTime modifiedDate;
 
-    public String createDateToString(){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd");
-        return this.createdDate.format(formatter);
+    public String dateTimeToString() {
+        return this.createdDate.format(DateTimeFormatter.ofPattern("MM-dd"));
     }
 }

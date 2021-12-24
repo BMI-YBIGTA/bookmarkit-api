@@ -21,9 +21,7 @@ public class MemberBookMarkQueryService extends BaseQueryService<MemberBookMark>
         return memberBookMarkRepository.findByMemberId(memberId);
     }
 
-    public List<MemberBookMark> queryByTitleContains(Long memberId,String searchText){
-        return memberBookMarkRepository.findByMemberIdEqualsAndTitleContains(memberId,searchText);
+    public List<MemberBookMark> queryByTitleContains(Long memberId, String searchText){
+        return memberBookMarkRepository.findByMemberIdEqualsAndTitleContains(memberId, searchText);
     }
-
-
 }
