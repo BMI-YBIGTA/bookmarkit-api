@@ -2,6 +2,7 @@ package com.bmi.bookmarkitapi.bookmark.domain.service;
 
 import com.bmi.bookmarkitapi.bookmark.domain.exception.BookMarkNotFoundException;
 import com.bmi.bookmarkitapi.bookmark.domain.model.BookMark;
+import com.bmi.bookmarkitapi.bookmark.domain.model.BookMarkStatus;
 import com.bmi.bookmarkitapi.bookmark.domain.repository.BookMarkCustomRepository;
 import com.bmi.bookmarkitapi.bookmark.domain.repository.BookMarkRepository;
 import com.bmi.bookmarkitapi.common.BaseQueryService;
@@ -39,15 +40,16 @@ public class BookMarkQueryService extends BaseQueryService<BookMark> {
 
     public List<BookMark> query(BookMarkCategoryQueryRequest request){
         if (request.getMainCategory().isEmpty()) {
-            return bookMarkRepository.findByIdInOrderByMainCategoryAscSubCategoryAscCreatedDateAsc(request.getBookMarkIdList());
+            return bookMarkRepository.findByIdInAndStatusEqualsOrderByMainCategoryAscSubCategoryAscCreatedDateAsc(request.getBookMarkIdList(), BookMarkStatus.COMPLETED);
         }
-        return bookMarkRepository.findByIdInAndMainCategoryEqualsOrderBySubCategoryAscCreatedDateAsc(
+        return bookMarkRepository.findByIdInAndMainCategoryEqualsAndStatusEqualsOrderBySubCategoryAscCreatedDateAsc(
                 request.getBookMarkIdList(),
-                request.getMainCategory()
+                request.getMainCategory(),
+                BookMarkStatus.COMPLETED
         );
     }
 
     public List<BookMark> query(BookMarkRecentQueryRequest request){
-        return bookMarkRepository.findTop20ByIdInOrderByCreatedDateAsc(request.getBookMarkIdList());
+        return bookMarkRepository.findTop20ByIdInAndStatusEqualsOrderByCreatedDateAsc(request.getBookMarkIdList(),BookMarkStatus.COMPLETED);
     }
 }

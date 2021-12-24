@@ -1,6 +1,7 @@
 package com.bmi.bookmarkitapi.bookmark.domain.repository;
 
 import com.bmi.bookmarkitapi.bookmark.domain.model.BookMark;
+import com.bmi.bookmarkitapi.bookmark.domain.model.BookMarkStatus;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -22,11 +23,13 @@ public class BookMarkCustomRepository {
             Pageable pageable
     ) {
         return queryFactory.selectFrom(bookMark)
-                .where(bookMark.id.in(titleContainsBookMarkIdList)
-                    .or(bookMark.id.in(bookMarkIdList)
-                        .and(bookMark.mainCategory.contains(searchText)
-                                .or(bookMark.subCategory.contains(searchText))
-                                .or(bookMark.content.contains(searchText))
+                .where(bookMark.status.eq(BookMarkStatus.COMPLETED)
+                    .and((bookMark.id.in(titleContainsBookMarkIdList))
+                        .or(bookMark.id.in(bookMarkIdList)
+                            .and(bookMark.mainCategory.contains(searchText)
+                                    .or(bookMark.subCategory.contains(searchText))
+                                    .or(bookMark.content.contains(searchText))
+                            )
                         )
                     )
                 )
