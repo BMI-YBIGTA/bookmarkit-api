@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -19,9 +18,7 @@ public class BookMark extends BaseEntity {
     private String header;
     private String link;
     private String content;
-    @Column(nullable = true)
     private String mainCategory = null;
-    @Column(nullable = true)
     private String subCategory = null;
     @Enumerated(EnumType.STRING)
     private BookMarkStatus status = BookMarkStatus.INIT;

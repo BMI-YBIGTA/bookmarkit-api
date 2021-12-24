@@ -11,7 +11,8 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class MemberBookMark extends BaseEntity {
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Long memberId;
     private Long bookmarkId;
@@ -27,8 +28,7 @@ public class MemberBookMark extends BaseEntity {
         this.title = title;
     }
 
-    public MemberBookMark titleModify(String title) {
+    public void titleModify(String title) {
         this.title = title;
-        return this;
     }
 }
