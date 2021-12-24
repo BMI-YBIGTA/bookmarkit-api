@@ -16,6 +16,7 @@ import org.springframework.web.server.ResponseStatusException;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Base64;
 import java.util.Date;
+import java.util.function.Function;
 
 @Slf4j
 @Component
@@ -84,5 +85,17 @@ public class JwtTokenProvider {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "잘못된 인증 헤더입니다.");
         }
         return authorization.substring(BEARER_PREFIX.length() + 1);
+    }
+
+    public Long getUsernameFromToken(String token) {
+        return Long.parseLong(getClaimFromToken(token, Claims::getSubject));
+    }
+
+    public <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) {
+        final Claims claims = getAllClaimsFromToken(token);
+        return claimsResolver.apply(claims);
+    }
+    private Claims getAllClaimsFromToken(String token) {
+        return Jwts.parser().setSigningKey(SIGNING_KEY).parseClaimsJws(token).getBody();
     }
 }
