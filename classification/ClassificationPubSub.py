@@ -25,7 +25,7 @@ class BookmarkRegisteredEventConsumer:
         print('bookmark_header %s' % bookmark_header)
         print('bookmark_content %s' % bookmark_content)
         classified_publisher = BookmarkClassifiedEventPublisher()
-        classified_publisher.publish(bookmark_id + '|||' + 'AI')
+        classified_publisher.publish(bookmark_id + '|||' + 'AI' + '|||' + 'Deep Learning')
         return
     
     def main(self):
