@@ -7,6 +7,7 @@ import com.bmi.bookmarkitapi.member.application.service.MemberRegistrationServic
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor

@@ -8,6 +8,7 @@ import com.bmi.bookmarkitapi.memberbookmark.domain.model.MemberBookMark;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/memberbookmark")
