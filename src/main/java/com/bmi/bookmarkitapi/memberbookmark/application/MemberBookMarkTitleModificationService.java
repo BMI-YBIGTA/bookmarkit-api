@@ -13,12 +13,11 @@ public class MemberBookMarkTitleModificationService {
     private final MemberBookMarkQueryService queryService;
     private final MemberBookMarkCommandService commandService;
 
-    public MemberBookMark modify(
-            Long id,
-            MemberBookMarkTitleModificationRequest request
-    ) {
+    public MemberBookMark modify(Long id, MemberBookMarkTitleModificationRequest request) {
         MemberBookMark memberBookMark = queryService.query(id);
+
         memberBookMark.titleModify(request.title);
+
         return commandService.save(memberBookMark);
     }
 }

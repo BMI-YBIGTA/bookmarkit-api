@@ -21,20 +21,13 @@ public class BookMarkQueryOrCreationService implements IBookMarkQueryOrCreationS
     public BookMarkQueryOrCreationResponse queryOrCreate(BookMarkQueryOrCreationRequest request) {
         try {
             BookMark foundBookmark = bookMarkQueryService.query(request.link);
-            return new BookMarkQueryOrCreationResponse(
-                    foundBookmark.getId()
-            );
+            return new BookMarkQueryOrCreationResponse(foundBookmark.getId());
         } catch (BookMarkNotFoundException exception) {
             BookMark createdBookmark = bookMarkRegistrationService.register(
-                    new BookMarkRegistrationRequest(
-                        request.header,
-                        request.link,
-                        request.content
-                    )
+                    new BookMarkRegistrationRequest(request.header, request.link, request.content)
             );
-            return new BookMarkQueryOrCreationResponse(
-                    createdBookmark.getId()
-            );
+
+            return new BookMarkQueryOrCreationResponse(createdBookmark.getId());
         }
     }
 }

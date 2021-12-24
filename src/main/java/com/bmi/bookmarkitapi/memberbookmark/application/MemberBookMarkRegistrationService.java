@@ -13,20 +13,11 @@ public class MemberBookMarkRegistrationService {
     private final MemberBookMarkCommandService commandService;
     private final IBookMarkQueryOrCreationService bookMarkQueryOrCreationService;
 
-    public MemberBookMark register(
-            MemberBookMarkRegistrationRequest request
-    ) {
+    public MemberBookMark register(MemberBookMarkRegistrationRequest request) {
         Long bookMarkId = bookMarkQueryOrCreationService.queryOrCreate(
-                new BookMarkQueryOrCreationRequest(
-                        request.header,
-                        request.link,
-                        request.content
-                )
+                new BookMarkQueryOrCreationRequest(request.header, request.link, request.content)
         ).bookmarkId;
-        return commandService.create(
-                request.memberId,
-                bookMarkId,
-                request.title
-        );
+
+        return commandService.create(request.memberId, bookMarkId, request.title);
     }
 }

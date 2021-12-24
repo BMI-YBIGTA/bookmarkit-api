@@ -12,14 +12,17 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class BookMark extends BaseEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String header;
     private String link;
     private String content;
-    private String mainCategory = null;
-    private String subCategory = null;
+    private String mainCategory;
+    private String subCategory;
+
     @Enumerated(EnumType.STRING)
     private BookMarkStatus status = BookMarkStatus.INIT;
 
@@ -47,14 +50,15 @@ public class BookMark extends BaseEntity {
         this.subCategory = subCategory;
     }
 
+    public String summarizeContent(String searchText) {
+        int index = content.indexOf(searchText);
+        int startIndex = index > -1 ? index : 0;
+        int endIndex = Math.min(startIndex + 200, content.length());
+        return content.substring(startIndex, endIndex);
+    }
+
     @PostPersist
     public void publishBookMarkRegisteredEvent() {
-        registerEvent(
-                new BookMarkRegisteredEvent(
-                        this.id,
-                        this.header,
-                        this.content
-                )
-        );
+        registerEvent(new BookMarkRegisteredEvent(id, header, content));
     }
 }

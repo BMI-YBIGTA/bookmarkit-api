@@ -17,9 +17,7 @@ public class MemberBookMarkCommandController {
     private final MemberBookMarkTitleModificationService titleModificationService;
 
     @PostMapping
-    public MemberBookMark register(
-            @RequestBody MemberBookMarkRegistrationRequest request
-            ) {
+    public MemberBookMark register(@RequestBody MemberBookMarkRegistrationRequest request) {
         return registrationService.register(request);
     }
 
@@ -27,7 +25,7 @@ public class MemberBookMarkCommandController {
     public MemberBookMark titleModify(
             @PathVariable Long id,
             @RequestBody MemberBookMarkTitleModificationRequest request
-            ) {
+    ) {
         return titleModificationService.modify(id, request);
     }
 }

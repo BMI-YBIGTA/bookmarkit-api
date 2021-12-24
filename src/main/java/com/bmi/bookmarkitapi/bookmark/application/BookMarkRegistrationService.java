@@ -1,6 +1,5 @@
 package com.bmi.bookmarkitapi.bookmark.application;
 
-
 import com.bmi.bookmarkitapi.bookmark.application.model.BookMarkRegistrationRequest;
 import com.bmi.bookmarkitapi.bookmark.domain.model.BookMark;
 import com.bmi.bookmarkitapi.bookmark.domain.service.BookMarkCommandService;
@@ -13,11 +12,6 @@ public class BookMarkRegistrationService {
     private final BookMarkCommandService commandService;
 
     public BookMark register(BookMarkRegistrationRequest request){
-        BookMark bookMark = commandService.create(
-                request.header,
-                request.link,
-                request.content
-        );
-        return bookMark;
+        return commandService.create(request.getHeader(), request.getLink(), request.getContent());
     }
 }

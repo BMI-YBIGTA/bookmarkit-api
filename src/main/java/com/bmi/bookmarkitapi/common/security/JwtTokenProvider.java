@@ -1,7 +1,6 @@
 package com.bmi.bookmarkitapi.common.security;
 
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +15,6 @@ import org.springframework.web.server.ResponseStatusException;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Base64;
 import java.util.Date;
-import java.util.function.Function;
 
 @Slf4j
 @Component
@@ -49,12 +47,7 @@ public class JwtTokenProvider {
     }
 
     public Authentication getAuthentication(String token) {
-        String email = Jwts.parser()
-                .setSigningKey(SIGNING_KEY)
-                .parseClaimsJws(token)
-                .getBody()
-                .get("email")
-                .toString();
+        String email = getClaimsBody(token).get("email").toString();
 
         UserDetails userDetails = userDetailsService.loadUserByUsername(email);
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
@@ -62,13 +55,7 @@ public class JwtTokenProvider {
 
     public boolean verifyToken(String token) {
         try {
-            Jws<Claims> claims = Jwts.parser()
-                    .setSigningKey(SIGNING_KEY)
-                    .parseClaimsJws(token);
-
-            return claims.getBody()
-                    .getExpiration()
-                    .after(new Date());
+            return getClaimsBody(token).getExpiration().after(new Date());
         } catch (Exception e) {
             log.error("Invalid token");
             return false;
@@ -87,15 +74,14 @@ public class JwtTokenProvider {
         return authorization.substring(BEARER_PREFIX.length() + 1);
     }
 
-    public Long getUsernameFromToken(String token) {
-        return Long.parseLong(getClaimFromToken(token, Claims::getSubject));
+    public Long getMemberId(String token) {
+        return Long.parseLong(getClaimsBody(token).getSubject());
     }
 
-    public <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) {
-        final Claims claims = getAllClaimsFromToken(token);
-        return claimsResolver.apply(claims);
-    }
-    private Claims getAllClaimsFromToken(String token) {
-        return Jwts.parser().setSigningKey(SIGNING_KEY).parseClaimsJws(token).getBody();
+    private Claims getClaimsBody(String token) {
+        return Jwts.parser()
+                .setSigningKey(SIGNING_KEY)
+                .parseClaimsJws(token)
+                .getBody();
     }
 }
