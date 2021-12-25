@@ -55,6 +55,9 @@ public class BookMark extends BaseEntity {
 
     public String summarizeContent(String searchText) {
         int index = content.indexOf(searchText);
+        if (index<= -1){
+            return "";
+        }
         int startIndex = index > -1 ? index : 0;
         int endIndex = Math.min(startIndex + 200, content.length());
         return content.substring(startIndex, endIndex);
