@@ -40,9 +40,9 @@ public class BookMarkQueryService extends BaseQueryService<BookMark> {
 
     public List<BookMark> query(BookMarkCategoryQueryRequest request){
         if (request.getMainCategory().isEmpty()) {
-            return bookMarkRepository.findByIdInAndStatusEqualsOrderByMainCategoryAscSubCategoryAscCreatedDateAsc(request.getBookMarkIdList(), BookMarkStatus.COMPLETED);
+            return bookMarkRepository.findByIdInAndStatusEqualsAndMainCategoryIsNotNullAndSubCategoryIsNotNullOrderByMainCategoryAscSubCategoryAscCreatedDateAsc(request.getBookMarkIdList(), BookMarkStatus.COMPLETED);
         }
-        return bookMarkRepository.findByIdInAndMainCategoryEqualsAndStatusEqualsOrderBySubCategoryAscCreatedDateAsc(
+        return bookMarkRepository.findByIdInAndMainCategoryEqualsAndStatusEqualsAndMainCategoryIsNotNullAndSubCategoryIsNotNullOrderBySubCategoryAscCreatedDateAsc(
                 request.getBookMarkIdList(),
                 request.getMainCategory(),
                 BookMarkStatus.COMPLETED
@@ -50,6 +50,6 @@ public class BookMarkQueryService extends BaseQueryService<BookMark> {
     }
 
     public List<BookMark> query(BookMarkRecentQueryRequest request){
-        return bookMarkRepository.findTop20ByIdInAndStatusEqualsOrderByCreatedDateAsc(request.getBookMarkIdList(),BookMarkStatus.COMPLETED);
+        return bookMarkRepository.findTop20ByIdInAndStatusEqualsAndMainCategoryIsNotNullAndSubCategoryIsNotNullOrderByCreatedDateAsc(request.getBookMarkIdList(),BookMarkStatus.COMPLETED);
     }
 }

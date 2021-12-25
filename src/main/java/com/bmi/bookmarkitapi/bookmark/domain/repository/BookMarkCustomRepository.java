@@ -24,6 +24,8 @@ public class BookMarkCustomRepository {
     ) {
         return queryFactory.selectFrom(bookMark)
                 .where(bookMark.status.eq(BookMarkStatus.COMPLETED)
+                    .and(bookMark.mainCategory.isNotNull())
+                    .and(bookMark.subCategory.isNotNull())
                     .and((bookMark.id.in(titleContainsBookMarkIdList))
                         .or(bookMark.id.in(bookMarkIdList)
                             .and(bookMark.mainCategory.contains(searchText)

@@ -10,7 +10,7 @@ import java.util.Optional;
 public interface BookMarkRepository extends BaseRepository<BookMark> {
 
     Optional<BookMark> findByLink(String link);
-    List<BookMark> findByIdInAndMainCategoryEqualsAndStatusEqualsOrderBySubCategoryAscCreatedDateAsc(List<Long> bookMarkIdList , String mainCategory, BookMarkStatus status);
-    List<BookMark> findByIdInAndStatusEqualsOrderByMainCategoryAscSubCategoryAscCreatedDateAsc(List<Long> bookMarkIdList , BookMarkStatus status);
-    List<BookMark> findTop20ByIdInAndStatusEqualsOrderByCreatedDateAsc(List<Long> bookMarkIdList, BookMarkStatus status);
+    List<BookMark> findByIdInAndMainCategoryEqualsAndStatusEqualsAndMainCategoryIsNotNullAndSubCategoryIsNotNullOrderBySubCategoryAscCreatedDateAsc(List<Long> bookMarkIdList , String mainCategory, BookMarkStatus status);
+    List<BookMark> findByIdInAndStatusEqualsAndMainCategoryIsNotNullAndSubCategoryIsNotNullOrderByMainCategoryAscSubCategoryAscCreatedDateAsc(List<Long> bookMarkIdList , BookMarkStatus status);
+    List<BookMark> findTop20ByIdInAndStatusEqualsAndMainCategoryIsNotNullAndSubCategoryIsNotNullOrderByCreatedDateAsc(List<Long> bookMarkIdList, BookMarkStatus status);
 }
