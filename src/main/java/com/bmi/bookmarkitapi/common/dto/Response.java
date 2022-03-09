@@ -1,6 +1,7 @@
 package com.bmi.bookmarkitapi.common.dto;
 
 import lombok.Getter;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -37,19 +38,19 @@ public class Response {
     }
 
     @Getter
-    public static class Page<T> {
+    public static class ItemPage<T> {
         private final boolean success;
         private final String message;
         private final List<T> result;
-        private final int totalElements;
+        private final long totalElements;
         private final int totalPages;
 
-        public Page(List<T> result, int totalPages) {
+        public ItemPage(Page<T> page) {
             success = true;
             message = OK_MESSAGE;
-            this.result = result;
-            totalElements = result.size();
-            this.totalPages = totalPages;
+            result = page.getContent();
+            totalElements = page.getTotalElements();
+            totalPages = page.getTotalPages();
         }
     }
 
