@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class BookmarkCommandService extends BaseCommandService<Bookmark> {
 
-    public BookmarkCommandService(BookmarkRepository repository) {
-        super(repository);
+    public BookmarkCommandService(BookmarkRepository bookmarkRepository) {
+        super(bookmarkRepository);
     }
 
     public Bookmark create(String link) {

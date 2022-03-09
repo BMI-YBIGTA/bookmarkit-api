@@ -1,7 +1,6 @@
 package com.bmi.bookmarkitapi.similarity.domain.service;
 
 import com.bmi.bookmarkitapi.common.BaseQueryService;
-import com.bmi.bookmarkitapi.common.exception.ResourceNotFoundException;
 import com.bmi.bookmarkitapi.similarity.domain.model.Similarity;
 import com.bmi.bookmarkitapi.similarity.domain.repository.SimilarityRepository;
 import org.springframework.stereotype.Service;
@@ -13,9 +12,9 @@ public class SimilarityQueryService extends BaseQueryService<Similarity> {
 
     private final SimilarityRepository similarityRepository;
 
-    public SimilarityQueryService(SimilarityRepository repository) {
-        super(repository, new ResourceNotFoundException());
-        similarityRepository = repository;
+    public SimilarityQueryService(SimilarityRepository similarityRepository) {
+        super(similarityRepository);
+        this.similarityRepository = similarityRepository;
     }
 
     public Optional<Similarity> query(String inputLink) {

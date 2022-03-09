@@ -14,7 +14,7 @@ public class MemberBookmarkTitleModificationService {
     private final MemberBookmarkCommandService commandService;
 
     public MemberBookmark modify(Long id, MemberBookmarkTitleModificationRequest request) {
-        MemberBookmark memberBookmark = queryService.query(id);
+        MemberBookmark memberBookmark = queryService.findById(id);
 
         memberBookmark.titleModify(request.title);
 

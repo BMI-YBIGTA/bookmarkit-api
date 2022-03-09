@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class SimilarityCommandService extends BaseCommandService<Similarity> {
 
-    public SimilarityCommandService(SimilarityRepository repository) {
-        super(repository);
+    public SimilarityCommandService(SimilarityRepository similarityRepository) {
+        super(similarityRepository);
     }
 
     public void create(String inputLink, String outputLinks) {

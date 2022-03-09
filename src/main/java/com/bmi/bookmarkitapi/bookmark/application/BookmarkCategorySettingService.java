@@ -13,7 +13,7 @@ public class BookmarkCategorySettingService {
     private final BookmarkCommandService commandService;
 
     public void set(Long bookmarkId, String content, String mainCategory, String subCategory) {
-        Bookmark bookmark = queryService.query(bookmarkId);
+        Bookmark bookmark = queryService.findById(bookmarkId);
         bookmark.setCategory(mainCategory, subCategory);
         bookmark.contentSet(content);
         commandService.save(bookmark);

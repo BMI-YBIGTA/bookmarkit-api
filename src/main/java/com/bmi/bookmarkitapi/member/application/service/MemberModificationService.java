@@ -17,7 +17,7 @@ public class MemberModificationService {
 
     @Transactional
     public MemberDto.Response modifyInfo(Long id, MemberDto.Request.ModifyInfo memberDto) {
-        Member member = memberQueryService.query(id);
+        Member member = memberQueryService.findById(id);
 
         member.modifyInfo(memberDto.getEmail(), memberDto.getName(), passwordEncoder.encode(memberDto.getPassword()));
 

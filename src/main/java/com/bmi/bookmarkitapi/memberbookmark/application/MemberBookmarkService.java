@@ -18,18 +18,18 @@ public class MemberBookmarkService {
     private final MemberBookmarkQueryService memberBookmarkQueryService;
 
     public MemberBookmarkDto.Response findById(Long id) {
-        return new MemberBookmarkDto.Response(memberBookmarkQueryService.query(id));
+        return new MemberBookmarkDto.Response(memberBookmarkQueryService.findById(id));
     }
 
     public List<MemberBookmarkDto.Response> findAll() {
-        return memberBookmarkQueryService.query()
+        return memberBookmarkQueryService.findAll()
                 .stream()
                 .map(MemberBookmarkDto.Response::new)
                 .collect(Collectors.toList());
     }
 
     public Page<MemberBookmarkDto.Response> findByPage(int page, int size) {
-        return memberBookmarkQueryService.query(PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "id")))
+        return memberBookmarkQueryService.findByPage(PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "id")))
                 .map(MemberBookmarkDto.Response::new);
     }
 }

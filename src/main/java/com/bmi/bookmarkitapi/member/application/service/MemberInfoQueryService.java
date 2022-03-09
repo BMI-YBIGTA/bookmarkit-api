@@ -12,6 +12,6 @@ public class MemberInfoQueryService {
     private final MemberQueryService memberQueryService;
 
     public MemberDto.Response getInfo(Long id) {
-        return MemberDto.Response.from(memberQueryService.query(id));
+        return MemberDto.Response.from(memberQueryService.findById(id));
     }
 }

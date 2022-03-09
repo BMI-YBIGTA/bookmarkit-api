@@ -9,18 +9,18 @@ import java.util.List;
 
 @RequiredArgsConstructor
 public abstract class BaseQueryService<T extends BaseEntity> {
+
     private final BaseRepository<T> repository;
-    private final ResourceNotFoundException resourceNotFoundException;
 
-    public Page<T> query(Pageable pageable) {
-        return repository.findAll(pageable);
-    }
-
-    public List<T> query() {
+    public List<T> findAll() {
         return repository.findAll();
     }
 
-    public T query(Long id) {
-        return repository.findById(id).orElseThrow(() -> resourceNotFoundException);
+    public T findById(Long id) {
+        return repository.findById(id).orElseThrow(ResourceNotFoundException::new);
+    }
+
+    public Page<T> findByPage(Pageable pageable) {
+        return repository.findAll(pageable);
     }
 }

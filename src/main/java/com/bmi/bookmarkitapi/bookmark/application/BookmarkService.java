@@ -18,18 +18,18 @@ public class BookmarkService {
     private final BookmarkQueryService bookmarkQueryService;
 
     public BookmarkDto.Response findById(Long id) {
-        return new BookmarkDto.Response(bookmarkQueryService.query(id));
+        return new BookmarkDto.Response(bookmarkQueryService.findById(id));
     }
 
     public List<BookmarkDto.Response> findAll() {
-        return bookmarkQueryService.query()
+        return bookmarkQueryService.findAll()
                 .stream()
                 .map(BookmarkDto.Response::new)
                 .collect(Collectors.toList());
     }
 
     public Page<BookmarkDto.Response> findByPage(int page, int size) {
-        return bookmarkQueryService.query(PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "id")))
+        return bookmarkQueryService.findByPage(PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "id")))
                 .map(BookmarkDto.Response::new);
     }
 }

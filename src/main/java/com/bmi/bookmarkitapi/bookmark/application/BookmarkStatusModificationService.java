@@ -13,13 +13,13 @@ public class BookmarkStatusModificationService {
 
     @Transactional
     public void request(Long bookmarkId) {
-        Bookmark bookmark = queryService.query(bookmarkId);
+        Bookmark bookmark = queryService.findById(bookmarkId);
         bookmark.request();
     }
 
     @Transactional
     public void complete(Long bookmarkId) {
-        Bookmark bookmark = queryService.query(bookmarkId);
+        Bookmark bookmark = queryService.findById(bookmarkId);
         bookmark.complete();
     }
 }

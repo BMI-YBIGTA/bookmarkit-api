@@ -20,7 +20,7 @@ public class BookmarkQueryService extends BaseQueryService<Bookmark> {
     private final BookmarkCustomRepository customRepository;
 
     public BookmarkQueryService(BookmarkRepository bookmarkRepository, BookmarkCustomRepository customRepository) {
-        super(bookmarkRepository, new ResourceNotFoundException());
+        super(bookmarkRepository);
         this.bookmarkRepository = bookmarkRepository;
         this.customRepository = customRepository;
     }
