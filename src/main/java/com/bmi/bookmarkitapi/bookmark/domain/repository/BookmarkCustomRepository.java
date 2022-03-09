@@ -35,7 +35,7 @@ public class BookmarkCustomRepository {
                         )
                     )
                 )
-                .orderBy(bookmark.createdDate.asc())
+                .orderBy(bookmark.createdAt.asc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();

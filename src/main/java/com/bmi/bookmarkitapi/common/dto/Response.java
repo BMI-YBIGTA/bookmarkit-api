@@ -9,17 +9,6 @@ public class Response {
     private static final String OK_MESSAGE = "정상적으로 처리되었습니다.";
 
     @Getter
-    public static class Empty {
-        private final boolean success;
-        private final String message;
-
-        public Empty() {
-            success = true;
-            message = OK_MESSAGE;
-        }
-    }
-
-    @Getter
     public static class Item<T> {
         private final boolean success;
         private final String message;
@@ -65,15 +54,24 @@ public class Response {
     }
 
     @Getter
+    public static class Empty {
+        private final boolean success;
+        private final String message;
+
+        public Empty() {
+            success = true;
+            message = OK_MESSAGE;
+        }
+    }
+
+    @Getter
     public static class Error {
         private final boolean success;
         private final String message;
-        private final Object result;
 
         public Error(String message) {
             success = false;
             this.message = message;
-            result = null;
         }
     }
 }

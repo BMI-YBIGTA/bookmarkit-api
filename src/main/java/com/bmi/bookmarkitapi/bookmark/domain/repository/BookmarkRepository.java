@@ -10,7 +10,7 @@ import java.util.Optional;
 public interface BookmarkRepository extends BaseRepository<Bookmark> {
 
     Optional<Bookmark> findByLink(String link);
-    List<Bookmark> findByIdInAndMainCategoryEqualsAndStatusEqualsAndMainCategoryIsNotNullAndSubCategoryIsNotNullOrderBySubCategoryAscCreatedDateAsc(List<Long> bookmarkIdList , String mainCategory, BookmarkStatus status);
-    List<Bookmark> findByIdInAndStatusEqualsAndMainCategoryIsNotNullAndSubCategoryIsNotNullOrderByMainCategoryAscSubCategoryAscCreatedDateAsc(List<Long> bookmarkIdList , BookmarkStatus status);
-    List<Bookmark> findTop20ByIdInAndStatusEqualsAndMainCategoryIsNotNullAndSubCategoryIsNotNullOrderByCreatedDateAsc(List<Long> bookmarkIdList, BookmarkStatus status);
+    List<Bookmark> findByIdInAndMainCategoryEqualsAndStatusEqualsAndMainCategoryIsNotNullAndSubCategoryIsNotNullOrderBySubCategoryAscCreatedAtAsc(List<Long> bookmarkIdList , String mainCategory, BookmarkStatus status);
+    List<Bookmark> findByIdInAndStatusEqualsAndMainCategoryIsNotNullAndSubCategoryIsNotNullOrderByMainCategoryAscSubCategoryAscCreatedAtAsc(List<Long> bookmarkIdList , BookmarkStatus status);
+    List<Bookmark> findTop20ByIdInAndStatusEqualsAndMainCategoryIsNotNullAndSubCategoryIsNotNullOrderByCreatedAtAsc(List<Long> bookmarkIdList, BookmarkStatus status);
 }
