@@ -1,7 +1,7 @@
 package com.bmi.bookmarkitapi.member.application.service;
 
+import com.bmi.bookmarkitapi.common.exception.DuplicateResourceException;
 import com.bmi.bookmarkitapi.member.application.model.MemberDto;
-import com.bmi.bookmarkitapi.member.domain.exception.DuplicateMemberException;
 import com.bmi.bookmarkitapi.member.domain.model.Member;
 import com.bmi.bookmarkitapi.member.domain.service.MemberCommandService;
 import com.bmi.bookmarkitapi.member.domain.service.MemberQueryService;
@@ -19,7 +19,7 @@ public class MemberRegistrationService {
 
     public MemberDto.Response register(MemberDto.Request.Register memberDto) {
         memberQueryService.query(memberDto.getEmail())
-                .ifPresent(value -> { throw new DuplicateMemberException(); });
+                .ifPresent(value -> { throw new DuplicateResourceException(); });
 
         memberDto.setPassword(passwordEncoder.encode(memberDto.getPassword()));
         Member member = memberCommandService.save(memberDto.toEntity());
