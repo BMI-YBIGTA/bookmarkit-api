@@ -17,7 +17,7 @@ public class MemberQueryService extends BaseQueryService<Member> {
         this.memberRepository = memberRepository;
     }
 
-    public Optional<Member> query(String email) {
+    public Optional<Member> findByEmail(String email) {
         return memberRepository.findByEmail(email);
     }
 }
