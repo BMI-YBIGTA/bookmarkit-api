@@ -12,10 +12,11 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 
 @CrossOrigin(origins = "*")
-@RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/memberbookmark")
+@RestController
 public class MemberBookmarkCommandController {
+
     private final MemberBookmarkRegistrationService registrationService;
     private final MemberBookmarkTitleModificationService titleModificationService;
     private final JwtTokenProvider jwtTokenProvider;

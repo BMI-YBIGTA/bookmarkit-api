@@ -5,8 +5,8 @@ import com.bmi.bookmarkitapi.similarity.domain.service.SimilarityQueryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-@Service
 @RequiredArgsConstructor
+@Service
 public class SimilarityRegistrationService {
 
     private final SimilarityQueryService similarityQueryService;

@@ -13,7 +13,7 @@ spring:
     password: secret
 
 security:
-  enable: false
+  enabled: false
 
 logging:
   level:

@@ -6,14 +6,14 @@ import com.bmi.bookmarkitapi.bookmark.domain.service.BookmarkQueryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-@Service
 @RequiredArgsConstructor
+@Service
 public class BookmarkCategorySettingService {
     private final BookmarkQueryService queryService;
     private final BookmarkCommandService commandService;
 
     public void set(Long bookmarkId, String content, String mainCategory, String subCategory) {
-        Bookmark bookmark = queryService.query(bookmarkId);
+        Bookmark bookmark = queryService.findById(bookmarkId);
         bookmark.setCategory(mainCategory, subCategory);
         bookmark.contentSet(content);
         commandService.save(bookmark);

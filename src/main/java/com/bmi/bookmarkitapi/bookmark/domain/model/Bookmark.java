@@ -8,9 +8,9 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Entity
 public class Bookmark extends BaseEntity {
 
     @Id
@@ -18,8 +18,10 @@ public class Bookmark extends BaseEntity {
     private Long id;
 
     private String link;
+
     @Column(columnDefinition = "LONGTEXT")
     private String content = "";
+
     private String mainCategory;
     private String subCategory;
 

@@ -1,54 +1,53 @@
 package com.bmi.bookmarkitapi.memberbookmark.presentation;
 
-import com.bmi.bookmarkitapi.common.BaseQueryController;
 import com.bmi.bookmarkitapi.common.dto.Response;
 import com.bmi.bookmarkitapi.common.security.JwtTokenProvider;
 import com.bmi.bookmarkitapi.memberbookmark.application.MemberBookmarkCategoryQueryService;
 import com.bmi.bookmarkitapi.memberbookmark.application.MemberBookmarkRecentQueryService;
 import com.bmi.bookmarkitapi.memberbookmark.application.MemberBookmarkSearchService;
-import com.bmi.bookmarkitapi.memberbookmark.application.model.BookmarkQueryDto;
-import com.bmi.bookmarkitapi.memberbookmark.application.model.BookmarkSearchDto;
-import com.bmi.bookmarkitapi.memberbookmark.application.model.MemberBookmarkQueryRequest;
-import com.bmi.bookmarkitapi.memberbookmark.application.model.MemberBookmarkSearchRequest;
-import com.bmi.bookmarkitapi.memberbookmark.domain.model.MemberBookmark;
-import com.bmi.bookmarkitapi.memberbookmark.domain.service.MemberBookmarkQueryService;
-import org.springframework.web.bind.annotation.CrossOrigin;
+import com.bmi.bookmarkitapi.memberbookmark.application.MemberBookmarkService;
+import com.bmi.bookmarkitapi.memberbookmark.application.model.*;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
 @CrossOrigin(origins = "*")
-@RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/memberbookmark")
-public class MemberBookmarkQueryController extends BaseQueryController<MemberBookmark> {
+@RestController
+public class MemberBookmarkQueryController {
+
+    private final MemberBookmarkService memberBookmarkService;
     private final MemberBookmarkSearchService searchService;
     private final MemberBookmarkCategoryQueryService categoryQueryService;
     private final MemberBookmarkRecentQueryService recentQueryService;
     private final JwtTokenProvider jwtTokenProvider;
 
-    public MemberBookmarkQueryController(
-            MemberBookmarkQueryService queryService,
-            MemberBookmarkSearchService searchService,
-            MemberBookmarkCategoryQueryService categoryQueryService,
-            MemberBookmarkRecentQueryService recentQueryService,
-            JwtTokenProvider jwtTokenProvider
+    @GetMapping
+    public Response.ItemList<MemberBookmarkDto.Response> findAll() {
+        return new Response.ItemList<>(memberBookmarkService.findAll());
+    }
+
+    @GetMapping("/{id}")
+    public Response.Item<MemberBookmarkDto.Response> findById(@PathVariable Long id) {
+        return new Response.Item<>(memberBookmarkService.findById(id));
+    }
+
+    @GetMapping("/page")
+    public Response.ItemPage<MemberBookmarkDto.Response> findByPage(
+            @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "size", defaultValue = "30") int size
     ) {
-        super(queryService);
-        this.searchService = searchService;
-        this.categoryQueryService = categoryQueryService;
-        this.recentQueryService = recentQueryService;
-        this.jwtTokenProvider = jwtTokenProvider;
+        return new Response.ItemPage<>(memberBookmarkService.findByPage(page, size));
     }
 
     @GetMapping("/search")
-    public Response.Page<BookmarkSearchDto> search(
+    public Response.ItemPage<BookmarkSearchDto> search(
             @RequestParam(name = "page", defaultValue = "0") int page,
             @RequestParam(name = "size", defaultValue = "100") int size,
             @RequestParam(name = "query") String searchText,
@@ -60,7 +59,7 @@ public class MemberBookmarkQueryController extends BaseQueryController<MemberBoo
                 new MemberBookmarkSearchRequest(id, searchText), PageRequest.of(page, size)
         );
 
-        return new Response.Page<>(tempPage.getContent(), tempPage.getTotalPages());
+        return new Response.ItemPage<>(tempPage);
     }
 
     @GetMapping("/query")

@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @CrossOrigin(origins = "*")
-@RestController
-@RequestMapping("/api/similarity")
 @RequiredArgsConstructor
+@RequestMapping("/api/similarity")
+@RestController
 public class SimilarityQueryController {
 
     private final SimilarityQueryService similarityQueryService;

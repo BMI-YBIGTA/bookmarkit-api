@@ -10,9 +10,9 @@ import java.util.List;
 import java.util.Map;
 
 @CrossOrigin(origins = "*")
-@RestController
-@RequestMapping("/api/category")
 @RequiredArgsConstructor
+@RequestMapping("/api/category")
+@RestController
 public class CategoryQueryController {
 
     private final CategoryListQueryService categoryListQueryService;

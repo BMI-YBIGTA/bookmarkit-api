@@ -10,9 +10,10 @@ import org.springframework.stereotype.Service;
 import java.util.StringTokenizer;
 
 @Slf4j
-@Service
 @RequiredArgsConstructor
+@Service
 public class BookmarkClassifiedEventConsumer {
+
     private final BookmarkStatusModificationService bookmarkStatusModificationService;
     private final BookmarkCategorySettingService bookmarkCategorySettingService;
 

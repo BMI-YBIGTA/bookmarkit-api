@@ -11,9 +11,10 @@ import java.util.List;
 
 import static com.bmi.bookmarkitapi.bookmark.domain.model.QBookmark.bookmark;
 
-@Repository
 @RequiredArgsConstructor
+@Repository
 public class BookmarkCustomRepository {
+
     private final JPAQueryFactory queryFactory;
 
     public List<Bookmark> search(
@@ -35,7 +36,7 @@ public class BookmarkCustomRepository {
                         )
                     )
                 )
-                .orderBy(bookmark.createdDate.asc())
+                .orderBy(bookmark.createdAt.asc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();

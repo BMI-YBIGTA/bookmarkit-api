@@ -1,9 +1,9 @@
 package com.bmi.bookmarkitapi.memberbookmark.application;
 
+import com.bmi.bookmarkitapi.common.exception.ResourceNotFoundException;
 import com.bmi.bookmarkitapi.memberbookmark.application.model.BookmarkSearchDto;
 import com.bmi.bookmarkitapi.memberbookmark.application.model.BookmarkSearchRequest;
 import com.bmi.bookmarkitapi.memberbookmark.application.model.MemberBookmarkSearchRequest;
-import com.bmi.bookmarkitapi.memberbookmark.domain.exception.MemberBookmarkNotFoundException;
 import com.bmi.bookmarkitapi.memberbookmark.domain.model.MemberBookmark;
 import com.bmi.bookmarkitapi.memberbookmark.domain.service.MemberBookmarkQueryService;
 import lombok.RequiredArgsConstructor;
@@ -15,9 +15,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Service
 @RequiredArgsConstructor
+@Service
 public class MemberBookmarkSearchService {
+
     private final MemberBookmarkQueryService queryService;
     private final IBookmarkSearchService searchService;
 
@@ -46,7 +47,7 @@ public class MemberBookmarkSearchService {
                     MemberBookmark memberBookmark = memberBookmarkList.stream()
                             .filter(mb -> mb.getBookmarkId().equals(bookmark.getId()))
                             .findFirst()
-                            .orElseThrow(MemberBookmarkNotFoundException::new);
+                            .orElseThrow(ResourceNotFoundException::new);
 
                     return new BookmarkSearchDto(
                             bookmark.getMainCategory(),

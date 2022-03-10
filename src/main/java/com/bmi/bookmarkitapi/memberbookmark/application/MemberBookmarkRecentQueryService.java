@@ -1,9 +1,10 @@
 package com.bmi.bookmarkitapi.memberbookmark.application;
 
+import com.bmi.bookmarkitapi.common.exception.ResourceNotFoundException;
+import com.bmi.bookmarkitapi.common.util.DateTimeUtils;
 import com.bmi.bookmarkitapi.memberbookmark.application.model.BookmarkQueryDto;
 import com.bmi.bookmarkitapi.memberbookmark.application.model.BookmarkRecentQueryRequest;
 import com.bmi.bookmarkitapi.memberbookmark.application.model.MemberBookmarkQueryRequest;
-import com.bmi.bookmarkitapi.memberbookmark.domain.exception.MemberBookmarkNotFoundException;
 import com.bmi.bookmarkitapi.memberbookmark.domain.model.MemberBookmark;
 import com.bmi.bookmarkitapi.memberbookmark.domain.service.MemberBookmarkQueryService;
 import lombok.RequiredArgsConstructor;
@@ -13,9 +14,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-@Service
 @RequiredArgsConstructor
+@Service
 public class MemberBookmarkRecentQueryService {
+
     private final MemberBookmarkQueryService queryService;
     private final IBookmarkListQueryService listQueryService;
 
@@ -31,7 +33,7 @@ public class MemberBookmarkRecentQueryService {
                     MemberBookmark memberBookmark = memberBookmarkList.stream()
                             .filter(mb -> mb.getBookmarkId().equals(bookmark.getId()))
                             .findFirst()
-                            .orElseThrow(MemberBookmarkNotFoundException::new);
+                            .orElseThrow(ResourceNotFoundException::new);
 
                     return new BookmarkQueryDto(
                             memberBookmark.getBookmarkId(),
@@ -39,7 +41,7 @@ public class MemberBookmarkRecentQueryService {
                             bookmark.getSubCategory(),
                             memberBookmark.getTitle(),
                             bookmark.getLink(),
-                            bookmark.dateTimeToString(),
+                            DateTimeUtils.toStringWithMonthAndDay(bookmark.getCreatedAt()),
                             bookmark.getStatus()
                     );
                 })

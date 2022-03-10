@@ -1,23 +1,13 @@
 package com.bmi.bookmarkitapi.common.dto;
 
 import lombok.Getter;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
 public class Response {
 
     private static final String OK_MESSAGE = "정상적으로 처리되었습니다.";
-
-    @Getter
-    public static class Empty {
-        private final boolean success;
-        private final String message;
-
-        public Empty() {
-            success = true;
-            message = OK_MESSAGE;
-        }
-    }
 
     @Getter
     public static class Item<T> {
@@ -48,19 +38,30 @@ public class Response {
     }
 
     @Getter
-    public static class Page<T> {
+    public static class ItemPage<T> {
         private final boolean success;
         private final String message;
         private final List<T> result;
-        private final int totalElements;
+        private final long totalElements;
         private final int totalPages;
 
-        public Page(List<T> result, int totalPages) {
+        public ItemPage(Page<T> page) {
             success = true;
             message = OK_MESSAGE;
-            this.result = result;
-            totalElements = result.size();
-            this.totalPages = totalPages;
+            result = page.getContent();
+            totalElements = page.getTotalElements();
+            totalPages = page.getTotalPages();
+        }
+    }
+
+    @Getter
+    public static class Empty {
+        private final boolean success;
+        private final String message;
+
+        public Empty() {
+            success = true;
+            message = OK_MESSAGE;
         }
     }
 
@@ -68,12 +69,10 @@ public class Response {
     public static class Error {
         private final boolean success;
         private final String message;
-        private final Object result;
 
         public Error(String message) {
             success = false;
             this.message = message;
-            result = null;
         }
     }
 }

@@ -6,9 +6,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = "*")
-@RestController
-@RequestMapping("/api/similarity")
 @RequiredArgsConstructor
+@RequestMapping("/api/similarity")
+@RestController
 public class SimilarityCommandController {
 
     private final SimilarityRegistrationService similarityRegistrationService;

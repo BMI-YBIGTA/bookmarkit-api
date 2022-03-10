@@ -31,7 +31,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final JwtTokenProvider jwtTokenProvider;
     private final boolean enableSecurity;
 
-    public SecurityConfig(JwtTokenProvider jwtTokenProvider, @Value("${security.enable}") boolean enableSecurity) {
+    public SecurityConfig(JwtTokenProvider jwtTokenProvider, @Value("${security.enabled}") boolean enableSecurity) {
         this.jwtTokenProvider = jwtTokenProvider;
         this.enableSecurity = enableSecurity;
     }

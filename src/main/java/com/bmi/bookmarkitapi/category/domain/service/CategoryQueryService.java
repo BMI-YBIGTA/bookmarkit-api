@@ -1,6 +1,5 @@
 package com.bmi.bookmarkitapi.category.domain.service;
 
-import com.bmi.bookmarkitapi.category.domain.exception.CategoryNotFoundException;
 import com.bmi.bookmarkitapi.category.domain.model.Category;
 import com.bmi.bookmarkitapi.category.domain.repository.CategoryRepository;
 import com.bmi.bookmarkitapi.common.BaseQueryService;
@@ -14,7 +13,7 @@ public class CategoryQueryService extends BaseQueryService<Category> {
     private final CategoryRepository categoryRepository;
 
     public CategoryQueryService(CategoryRepository categoryRepository) {
-        super(categoryRepository, new CategoryNotFoundException());
+        super(categoryRepository);
         this.categoryRepository = categoryRepository;
     }
 
