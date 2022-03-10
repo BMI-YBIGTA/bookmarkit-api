@@ -10,7 +10,7 @@ spring:
     password: secret
 
 security:
-  enable: true
+  enabled: true
 
 logging:
   level:
