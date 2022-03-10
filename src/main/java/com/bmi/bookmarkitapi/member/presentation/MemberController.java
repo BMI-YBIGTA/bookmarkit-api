@@ -10,6 +10,8 @@ import com.bmi.bookmarkitapi.member.application.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @CrossOrigin(origins = "*")
 @RequiredArgsConstructor
 @RequestMapping("/api/member")
@@ -26,18 +28,18 @@ public class MemberController {
     @PutMapping("/{id}")
     public Response.Item<MemberResponseDto> modifyInfo(
             @PathVariable Long id,
-            @RequestBody MemberModifyInfoRequestDto request
+            @Valid @RequestBody MemberModifyInfoRequestDto request
     ) {
         return new Response.Item<>(memberService.modifyInfo(id, request));
     }
 
     @PostMapping("/sign-up")
-    public Response.Item<MemberResponseDto> signUp(@RequestBody MemberRegisterRequestDto request) {
+    public Response.Item<MemberResponseDto> signUp(@Valid @RequestBody MemberRegisterRequestDto request) {
         return new Response.Item<>(memberService.register(request));
     }
 
     @PostMapping("/sign-in")
-    public Response.Item<MemberLoginResponseDto> signIn(@RequestBody MemberLoginRequestDto request) {
+    public Response.Item<MemberLoginResponseDto> signIn(@Valid @RequestBody MemberLoginRequestDto request) {
         return new Response.Item<>(memberService.login(request));
     }
 }
