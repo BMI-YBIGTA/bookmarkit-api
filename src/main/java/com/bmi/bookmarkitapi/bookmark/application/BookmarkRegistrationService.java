@@ -6,8 +6,8 @@ import com.bmi.bookmarkitapi.bookmark.domain.service.BookmarkCommandService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-@Service
 @RequiredArgsConstructor
+@Service
 public class BookmarkRegistrationService {
     private final BookmarkCommandService commandService;
 

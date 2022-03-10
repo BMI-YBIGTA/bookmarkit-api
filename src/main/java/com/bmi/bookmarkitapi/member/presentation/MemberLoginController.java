@@ -8,9 +8,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = "*")
-@RestController
-@RequestMapping("/api")
 @RequiredArgsConstructor
+@RequestMapping("/api/member")
+@RestController
 public class MemberLoginController {
 
     private final MemberLoginService memberLoginService;

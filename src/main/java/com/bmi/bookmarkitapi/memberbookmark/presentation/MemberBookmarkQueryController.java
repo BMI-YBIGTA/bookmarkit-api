@@ -18,8 +18,8 @@ import java.util.Map;
 
 @CrossOrigin(origins = "*")
 @RequiredArgsConstructor
-@RestController
 @RequestMapping("/api/memberbookmark")
+@RestController
 public class MemberBookmarkQueryController {
 
     private final MemberBookmarkService memberBookmarkService;

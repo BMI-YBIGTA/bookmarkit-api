@@ -8,9 +8,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = "*")
-@RestController
-@RequestMapping("/api")
 @RequiredArgsConstructor
+@RequestMapping("/api/member")
+@RestController
 public class MemberCommandController {
 
     private final MemberRegistrationService memberRegistrationService;
@@ -21,7 +21,7 @@ public class MemberCommandController {
         return new Response.Item<>(memberRegistrationService.register(memberDto));
     }
 
-    @PutMapping("/member/{id}")
+    @PutMapping("/{id}")
     public Response.Item<MemberDto.Response> modifyInfo(
             @PathVariable Long id,
             @RequestBody MemberDto.Request.ModifyInfo memberDto

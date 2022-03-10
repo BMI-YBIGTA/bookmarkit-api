@@ -6,6 +6,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class BookmarkRegisteredEvent {
+
     public Long bookmarkId;
     public String link;
 

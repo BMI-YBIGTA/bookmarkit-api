@@ -17,8 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
-@Service
 @RequiredArgsConstructor
+@Service
 public class CategoryMigrationService {
 
     private final CategoryQueryService categoryQueryService;

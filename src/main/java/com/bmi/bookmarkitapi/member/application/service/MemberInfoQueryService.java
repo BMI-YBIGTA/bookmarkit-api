@@ -5,8 +5,8 @@ import com.bmi.bookmarkitapi.member.domain.service.MemberQueryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-@Service
 @RequiredArgsConstructor
+@Service
 public class MemberInfoQueryService {
 
     private final MemberQueryService memberQueryService;

@@ -11,9 +11,9 @@ import javax.persistence.*;
 import java.util.Collection;
 import java.util.Collections;
 
-@Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Entity
 public class Member extends BaseEntity implements UserDetails {
 
     @Id

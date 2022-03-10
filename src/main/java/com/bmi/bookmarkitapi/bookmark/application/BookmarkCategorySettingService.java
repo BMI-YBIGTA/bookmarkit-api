@@ -6,8 +6,8 @@ import com.bmi.bookmarkitapi.bookmark.domain.service.BookmarkQueryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-@Service
 @RequiredArgsConstructor
+@Service
 public class BookmarkCategorySettingService {
     private final BookmarkQueryService queryService;
     private final BookmarkCommandService commandService;

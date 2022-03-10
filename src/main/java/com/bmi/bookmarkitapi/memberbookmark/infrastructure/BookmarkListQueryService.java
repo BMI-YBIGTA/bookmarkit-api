@@ -10,9 +10,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
 @RequiredArgsConstructor
+@Service
 public class BookmarkListQueryService implements IBookmarkListQueryService {
+
     private final BookmarkQueryService queryService;
 
     @Override

@@ -7,14 +7,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = "*")
-@RestController
-@RequestMapping("/api")
 @RequiredArgsConstructor
+@RequestMapping("/api/member")
+@RestController
 public class MemberQueryController {
 
     private final MemberInfoQueryService memberInfoQueryService;
 
-    @GetMapping("/member/{id}")
+    @GetMapping("/{id}")
     public Response.Item<MemberDto.Response> getInfo(@PathVariable Long id) {
         return new Response.Item<>(memberInfoQueryService.getInfo(id));
     }

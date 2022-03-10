@@ -7,8 +7,8 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
 @Slf4j
-@Component
 @RequiredArgsConstructor
+@Component
 public class SimilarityAnalyzedEventConsumer {
 
     private final SimilarityCommandService similarityCommandService;

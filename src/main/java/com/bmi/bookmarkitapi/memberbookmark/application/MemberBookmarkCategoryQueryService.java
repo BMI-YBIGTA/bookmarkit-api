@@ -15,9 +15,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-@Service
 @RequiredArgsConstructor
+@Service
 public class MemberBookmarkCategoryQueryService {
+
     private final MemberBookmarkQueryService queryService;
     private final IBookmarkListQueryService listQueryService;
 

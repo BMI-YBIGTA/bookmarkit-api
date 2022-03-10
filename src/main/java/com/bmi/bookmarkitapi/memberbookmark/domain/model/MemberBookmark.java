@@ -7,9 +7,9 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Entity
 public class MemberBookmark extends BaseEntity {
 
     @Id
@@ -17,6 +17,7 @@ public class MemberBookmark extends BaseEntity {
     private Long id;
     private Long memberId;
     private Long bookmarkId;
+
     private String title;
 
     public MemberBookmark(Long memberId, Long bookmarkId, String title) {

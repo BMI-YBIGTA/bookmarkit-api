@@ -8,9 +8,10 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 @Slf4j
-@Component
 @RequiredArgsConstructor
+@Component
 public class BookmarkRegisteredEventHandler {
+
     private final BookmarkStatusModificationService bookmarkStatusModificationService;
     private final BookmarkRegisteredEventProducer bookmarkRegisteredEventProducer;
 

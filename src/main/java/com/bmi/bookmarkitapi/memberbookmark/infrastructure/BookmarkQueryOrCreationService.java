@@ -11,9 +11,10 @@ import com.bmi.bookmarkitapi.memberbookmark.application.model.BookmarkQueryOrCre
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-@Service
 @RequiredArgsConstructor
+@Service
 public class BookmarkQueryOrCreationService implements IBookmarkQueryOrCreationService {
+
     private final BookmarkQueryService bookmarkQueryService;
     private final BookmarkRegistrationService bookmarkRegistrationService;
 
