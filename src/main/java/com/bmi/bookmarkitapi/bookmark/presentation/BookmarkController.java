@@ -6,7 +6,6 @@ import com.bmi.bookmarkitapi.common.dto.Response;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(origins = "*")
 @RequiredArgsConstructor
 @RequestMapping("/api/bookmark")
 @RestController

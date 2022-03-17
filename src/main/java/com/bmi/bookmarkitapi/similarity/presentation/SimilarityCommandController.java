@@ -5,7 +5,6 @@ import com.bmi.bookmarkitapi.similarity.application.service.SimilarityRegistrati
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(origins = "*")
 @RequiredArgsConstructor
 @RequestMapping("/api/similarity")
 @RestController
