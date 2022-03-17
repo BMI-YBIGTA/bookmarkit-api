@@ -2,11 +2,11 @@ package com.bmi.bookmarkitapi.member.application.service;
 
 import com.bmi.bookmarkitapi.common.exception.DuplicateResourceException;
 import com.bmi.bookmarkitapi.common.security.JwtTokenProvider;
-import com.bmi.bookmarkitapi.member.application.model.request.MemberLoginRequestDto;
-import com.bmi.bookmarkitapi.member.application.model.request.MemberModifyInfoRequestDto;
-import com.bmi.bookmarkitapi.member.application.model.request.MemberRegisterRequestDto;
-import com.bmi.bookmarkitapi.member.application.model.response.MemberLoginResponseDto;
-import com.bmi.bookmarkitapi.member.application.model.response.MemberResponseDto;
+import com.bmi.bookmarkitapi.member.application.model.request.MemberLoginRequest;
+import com.bmi.bookmarkitapi.member.application.model.request.MemberModifyInfoRequest;
+import com.bmi.bookmarkitapi.member.application.model.request.MemberRegisterRequest;
+import com.bmi.bookmarkitapi.member.application.model.response.MemberLoginResponse;
+import com.bmi.bookmarkitapi.member.application.model.response.MemberResponse;
 import com.bmi.bookmarkitapi.member.domain.model.Member;
 import com.bmi.bookmarkitapi.member.domain.service.MemberCommandService;
 import com.bmi.bookmarkitapi.member.domain.service.MemberQueryService;
@@ -25,30 +25,30 @@ public class MemberServiceImpl implements MemberService {
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public MemberResponseDto getInfo(Long id) {
-        return new MemberResponseDto(memberQueryService.findById(id));
+    public MemberResponse getInfo(Long id) {
+        return new MemberResponse(memberQueryService.findById(id));
     }
 
     @Transactional
     @Override
-    public MemberResponseDto modifyInfo(Long id, MemberModifyInfoRequestDto request) {
+    public MemberResponse modifyInfo(Long id, MemberModifyInfoRequest request) {
         Member member = memberQueryService.findById(id);
         member.modifyInfo(request.getEmail(), request.getName(), passwordEncoder.encode(request.getPassword()));
-        return new MemberResponseDto(member);
+        return new MemberResponse(member);
     }
 
     @Override
-    public MemberResponseDto register(MemberRegisterRequestDto request) {
+    public MemberResponse register(MemberRegisterRequest request) {
         memberQueryService.findByEmail(request.getEmail())
                 .ifPresent(value -> { throw new DuplicateResourceException(); });
 
         request.setPassword(passwordEncoder.encode(request.getPassword()));
         Member member = memberCommandService.save(request.toEntity());
-        return new MemberResponseDto(member);
+        return new MemberResponse(member);
     }
 
     @Override
-    public MemberLoginResponseDto login(MemberLoginRequestDto loginDto) {
+    public MemberLoginResponse login(MemberLoginRequest loginDto) {
         Member member = memberQueryService.findByEmail(loginDto.getEmail())
                 .orElseThrow(() -> new IllegalArgumentException("가입되지 않은 이메일입니다"));
 
@@ -57,6 +57,6 @@ public class MemberServiceImpl implements MemberService {
         }
 
         String token = jwtTokenProvider.issueToken(member.getId(), member.getUsername());
-        return new MemberLoginResponseDto(member, token);
+        return new MemberLoginResponse(member, token);
     }
 }

@@ -2,11 +2,11 @@ package com.bmi.bookmarkitapi.member.application.service;
 
 import com.bmi.bookmarkitapi.common.exception.DuplicateResourceException;
 import com.bmi.bookmarkitapi.common.security.JwtTokenProvider;
-import com.bmi.bookmarkitapi.member.application.model.request.MemberLoginRequestDto;
-import com.bmi.bookmarkitapi.member.application.model.request.MemberModifyInfoRequestDto;
-import com.bmi.bookmarkitapi.member.application.model.request.MemberRegisterRequestDto;
-import com.bmi.bookmarkitapi.member.application.model.response.MemberLoginResponseDto;
-import com.bmi.bookmarkitapi.member.application.model.response.MemberResponseDto;
+import com.bmi.bookmarkitapi.member.application.model.request.MemberLoginRequest;
+import com.bmi.bookmarkitapi.member.application.model.request.MemberModifyInfoRequest;
+import com.bmi.bookmarkitapi.member.application.model.request.MemberRegisterRequest;
+import com.bmi.bookmarkitapi.member.application.model.response.MemberLoginResponse;
+import com.bmi.bookmarkitapi.member.application.model.response.MemberResponse;
 import com.bmi.bookmarkitapi.member.domain.model.Member;
 import com.bmi.bookmarkitapi.member.domain.service.MemberCommandService;
 import com.bmi.bookmarkitapi.member.domain.service.MemberQueryService;
@@ -22,7 +22,6 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.refEq;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -50,7 +49,7 @@ class MemberServiceTest {
         Member member = new Member(email, name, password);
         when(memberQueryService.findById(id)).thenReturn(member);
 
-        MemberResponseDto result = memberService.getInfo(id);
+        MemberResponse result = memberService.getInfo(id);
 
         assertThat(result.getEmail()).isEqualTo(email);
         assertThat(result.getName()).isEqualTo(name);
@@ -68,10 +67,10 @@ class MemberServiceTest {
         when(passwordEncoder.encode(password)).thenReturn(password);
         Member member = new Member(email, name, passwordEncoder.encode(password));
         when(memberQueryService.findById(id)).thenReturn(member);
-        MemberModifyInfoRequestDto request = new MemberModifyInfoRequestDto();
+        MemberModifyInfoRequest request = new MemberModifyInfoRequest();
         request.setName(newName);
 
-        MemberResponseDto result = memberService.modifyInfo(id, request);
+        MemberResponse result = memberService.modifyInfo(id, request);
 
         assertThat(result.getEmail()).isEqualTo(email);
         assertThat(result.getName()).isEqualTo(newName);
@@ -86,13 +85,13 @@ class MemberServiceTest {
 
         when(memberQueryService.findByEmail(email)).thenReturn(Optional.empty());
         when(passwordEncoder.encode(password)).thenReturn(password);
-        MemberRegisterRequestDto request = new MemberRegisterRequestDto();
+        MemberRegisterRequest request = new MemberRegisterRequest();
         request.setEmail(email);
         request.setPassword(password);
         request.setName(name);
         when(memberCommandService.save(any(Member.class))).thenReturn(new Member(email, name, password));
 
-        MemberResponseDto result = memberService.register(request);
+        MemberResponse result = memberService.register(request);
 
         assertThat(result.getName()).isEqualTo(name);
         assertThat(result.getEmail()).isEqualTo(email);
@@ -106,7 +105,7 @@ class MemberServiceTest {
         String password = "1234";
 
         when(memberQueryService.findByEmail(email)).thenReturn(Optional.of(new Member(email, name, password)));
-        MemberRegisterRequestDto request = new MemberRegisterRequestDto();
+        MemberRegisterRequest request = new MemberRegisterRequest();
         request.setEmail(email);
 
         assertThrows(DuplicateResourceException.class, () -> memberService.register(request));
@@ -121,14 +120,14 @@ class MemberServiceTest {
         String token = "token";
         Member member = new Member(email, name, password);
 
-        MemberLoginRequestDto request = new MemberLoginRequestDto();
+        MemberLoginRequest request = new MemberLoginRequest();
         request.setEmail(email);
         request.setPassword(password);
         when(memberQueryService.findByEmail(email)).thenReturn(Optional.of(member));
         when(passwordEncoder.matches(request.getPassword(), member.getPassword())).thenReturn(true);
         when(jwtTokenProvider.issueToken(member.getId(), member.getEmail())).thenReturn(token);
 
-        MemberLoginResponseDto result = memberService.login(request);
+        MemberLoginResponse result = memberService.login(request);
 
         assertThat(result.getEmail()).isEqualTo(email);
         assertThat(result.getName()).isEqualTo(name);
@@ -141,7 +140,7 @@ class MemberServiceTest {
         String email = "a@google.com";
         String password = "1234";
 
-        MemberLoginRequestDto request = new MemberLoginRequestDto();
+        MemberLoginRequest request = new MemberLoginRequest();
         request.setEmail(email);
         request.setPassword(password);
         when(memberQueryService.findByEmail(email)).thenReturn(Optional.empty());
@@ -157,7 +156,7 @@ class MemberServiceTest {
         String password = "1234";
         Member member = new Member(email, name, password);
 
-        MemberLoginRequestDto request = new MemberLoginRequestDto();
+        MemberLoginRequest request = new MemberLoginRequest();
         request.setEmail(email);
         request.setPassword(password);
         when(memberQueryService.findByEmail(email)).thenReturn(Optional.of(member));
