@@ -36,7 +36,7 @@ public class CategoryMigrationService {
                 String mainCategory = row.get("mainCategory").trim();
                 String subCategory = row.get("subCategory").trim();
 
-                if (categoryQueryService.query(mainCategory, subCategory).isEmpty()) {
+                if (categoryQueryService.findByMainAndSubCategory(mainCategory, subCategory).isEmpty()) {
                     categories.add(new Category(mainCategory, subCategory));
                 }
             });

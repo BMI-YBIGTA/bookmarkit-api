@@ -1,24 +1,22 @@
 package com.bmi.bookmarkitapi.category.presentation;
 
-import com.bmi.bookmarkitapi.category.application.model.CategoryDto;
-import com.bmi.bookmarkitapi.category.application.service.CategoryListQueryService;
+import com.bmi.bookmarkitapi.category.application.model.response.CategoryListResponse;
+import com.bmi.bookmarkitapi.category.application.service.CategoryService;
 import com.bmi.bookmarkitapi.common.dto.Response;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-import java.util.Map;
-
-@CrossOrigin(origins = "*")
 @RequiredArgsConstructor
 @RequestMapping("/api/category")
 @RestController
 public class CategoryQueryController {
 
-    private final CategoryListQueryService categoryListQueryService;
+    private final CategoryService categoryService;
 
     @GetMapping
-    public Response.Item<Map<String, List<CategoryDto>>> list() {
-        return categoryListQueryService.getCategoryList();
+    public Response.ItemList<CategoryListResponse> getCategoryList() {
+        return new Response.ItemList<>(categoryService.getCategoryList());
     }
 }
