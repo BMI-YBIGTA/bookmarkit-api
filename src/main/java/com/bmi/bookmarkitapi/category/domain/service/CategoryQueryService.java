@@ -17,7 +17,7 @@ public class CategoryQueryService extends BaseQueryService<Category> {
         this.categoryRepository = categoryRepository;
     }
 
-    public Optional<Category> query(String mainCategory, String subCategory) {
+    public Optional<Category> findByMainAndSubCategory(String mainCategory, String subCategory) {
         return categoryRepository.findByMainCategoryAndSubCategory(mainCategory, subCategory);
     }
 }
