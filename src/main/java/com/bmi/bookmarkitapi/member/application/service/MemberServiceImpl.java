@@ -48,11 +48,11 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public MemberLoginResponse login(MemberLoginRequest loginDto) {
-        Member member = memberQueryService.findByEmail(loginDto.getEmail())
+    public MemberLoginResponse login(MemberLoginRequest request) {
+        Member member = memberQueryService.findByEmail(request.getEmail())
                 .orElseThrow(() -> new IllegalArgumentException("가입되지 않은 이메일입니다"));
 
-        if (!passwordEncoder.matches(loginDto.getPassword(), member.getPassword())) {
+        if (!passwordEncoder.matches(request.getPassword(), member.getPassword())) {
             throw new IllegalArgumentException("잘못된 비밀번호입니다");
         }
 
