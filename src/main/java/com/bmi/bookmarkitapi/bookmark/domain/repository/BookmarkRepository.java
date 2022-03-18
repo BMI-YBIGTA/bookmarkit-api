@@ -11,5 +11,5 @@ public interface BookmarkRepository extends BaseRepository<Bookmark>, BookmarkRe
 
     Optional<Bookmark> findByLink(String link);
 
-    List<Bookmark> findFirst20ByIdInAndStatusEqualsOrderByCreatedAtDesc(List<Long> bookmarkIdList, BookmarkStatus status);
+    List<Bookmark> findFirst20ByIdInAndStatusEqualsOrderByCreatedAtDesc(List<Long> bookmarkIds, BookmarkStatus status);
 }

@@ -9,6 +9,7 @@ import javax.persistence.*;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.regex.Pattern;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -22,8 +23,11 @@ public class Similarity extends BaseEntity {
     private String inputLink;
     private String outputLinks;
 
-    public Similarity(String inputLink, String outputLinks) {
+    public Similarity(String inputLink) {
         this.inputLink = inputLink;
+    }
+
+    public void setOutputLinks(String outputLinks) {
         this.outputLinks = outputLinks;
     }
 
@@ -31,7 +35,7 @@ public class Similarity extends BaseEntity {
         if (outputLinks == null) {
             return Collections.emptyList();
         }
-        return Arrays.asList(outputLinks.split("|||"));
+        return Arrays.asList(outputLinks.split(Pattern.quote("|||")));
     }
 
     @PostPersist

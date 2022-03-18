@@ -30,11 +30,11 @@ public class BookmarkQueryService extends BaseQueryService<Bookmark> {
         return bookmarkRepository.search(bookmarkIds, titleSearchedBookmarkIds, searchText, pageable);
     }
 
-    public List<Bookmark> findByCategory(List<Long> bookmarkIds, String mainCategory){
-        return bookmarkRepository.findByCategory(bookmarkIds, mainCategory);
+    public List<Bookmark> findByMainCategory(List<Long> bookmarkIds, String mainCategory){
+        return bookmarkRepository.findByMainCategory(bookmarkIds, mainCategory);
     }
 
-    public List<Bookmark> findRecent20Bookmarks(List<Long> bookmarkIdList){
-        return bookmarkRepository.findFirst20ByIdInAndStatusEqualsOrderByCreatedAtDesc(bookmarkIdList, BookmarkStatus.COMPLETED);
+    public List<Bookmark> findRecent20Bookmarks(List<Long> bookmarkIds){
+        return bookmarkRepository.findFirst20ByIdInAndStatusEqualsOrderByCreatedAtDesc(bookmarkIds, BookmarkStatus.COMPLETED);
     }
 }

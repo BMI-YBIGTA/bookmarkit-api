@@ -17,7 +17,7 @@ public class SimilarityQueryService extends BaseQueryService<Similarity> {
         this.similarityRepository = similarityRepository;
     }
 
-    public Optional<Similarity> query(String inputLink) {
+    public Optional<Similarity> findByInputLink(String inputLink) {
         return similarityRepository.findByInputLink(inputLink);
     }
 }

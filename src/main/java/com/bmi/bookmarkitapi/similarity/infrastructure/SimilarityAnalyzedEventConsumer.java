@@ -1,6 +1,5 @@
 package com.bmi.bookmarkitapi.similarity.infrastructure;
 
-import com.bmi.bookmarkitapi.similarity.domain.service.SimilarityCommandService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -11,7 +10,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class SimilarityAnalyzedEventConsumer {
 
-    private final SimilarityCommandService similarityCommandService;
+    private final SimilarityModificationService similarityModificationService;
 
     /**
      * @param message "inputLink|||outputLink1|||outputLink2|||outputLink3"
@@ -26,6 +25,6 @@ public class SimilarityAnalyzedEventConsumer {
         log.info("inputLink: " + inputLink);
         log.info("outputLinks: " + outputLinks);
 
-        similarityCommandService.create(inputLink, outputLinks);
+        similarityModificationService.setOutputLinks(inputLink, outputLinks);
     }
 }

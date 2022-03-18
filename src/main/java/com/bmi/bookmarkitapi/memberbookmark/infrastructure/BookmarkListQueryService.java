@@ -18,7 +18,7 @@ public class BookmarkListQueryService implements IBookmarkListQueryService {
 
     @Override
     public List<Bookmark> query(BookmarkCategoryQueryRequest request) {
-        return queryService.findByCategory(request.bookmarkIdList, request.mainCategory);
+        return queryService.findByMainCategory(request.bookmarkIdList, request.mainCategory);
     }
 
     @Override
