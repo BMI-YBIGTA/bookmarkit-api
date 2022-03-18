@@ -22,6 +22,7 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -53,6 +54,7 @@ class MemberServiceTest {
 
         assertThat(result.getEmail()).isEqualTo(email);
         assertThat(result.getName()).isEqualTo(name);
+        verify(memberQueryService).findById(id);
     }
 
     @DisplayName("회원 정보를 수정하면 요청된 데이터로 정보가 수정되고 사용자 정보가 반환된다")
@@ -74,6 +76,8 @@ class MemberServiceTest {
 
         assertThat(result.getEmail()).isEqualTo(email);
         assertThat(result.getName()).isEqualTo(newName);
+        verify(passwordEncoder).encode(password);
+        verify(memberQueryService).findById(id);
     }
 
     @DisplayName("요청된 이메일을 가진 사용자가 존재하지 않으면 회원가입이 완료되고 사용자 정보가 반환된다")
@@ -95,6 +99,9 @@ class MemberServiceTest {
 
         assertThat(result.getName()).isEqualTo(name);
         assertThat(result.getEmail()).isEqualTo(email);
+        verify(memberQueryService).findByEmail(email);
+        verify(passwordEncoder).encode(password);
+        verify(memberCommandService).save(any(Member.class));
     }
 
     @DisplayName("요청된 이메일을 가진 사용자가 존재하면 DuplicateResourceException 예외가 발생한다")
@@ -109,6 +116,7 @@ class MemberServiceTest {
         request.setEmail(email);
 
         assertThrows(DuplicateResourceException.class, () -> memberService.register(request));
+        verify(memberQueryService).findByEmail(email);
     }
 
     @DisplayName("요청된 이메일을 가진 사용자가 존재하고 비밀번호가 일치하면 로그인이 완료되고 사용자 정보와 토큰이 반환된다")
@@ -132,6 +140,9 @@ class MemberServiceTest {
         assertThat(result.getEmail()).isEqualTo(email);
         assertThat(result.getName()).isEqualTo(name);
         assertThat(result.getToken()).isEqualTo(token);
+        verify(memberQueryService).findByEmail(email);
+        verify(passwordEncoder).matches(request.getPassword(), member.getPassword());
+        verify(jwtTokenProvider).issueToken(member.getId(), member.getEmail());
     }
 
     @DisplayName("요청된 이메일을 가진 사용자가 존재하지 않으면 IllegalArgumentException 예외가 발생한다")
@@ -146,6 +157,7 @@ class MemberServiceTest {
         when(memberQueryService.findByEmail(email)).thenReturn(Optional.empty());
 
         assertThrows(IllegalArgumentException.class, () -> memberService.login(request));
+        verify(memberQueryService).findByEmail(email);
     }
 
     @DisplayName("잘못된 비밀번호를 입력할 경우 IllegalArgumentException 예외가 발생한다")
@@ -163,5 +175,7 @@ class MemberServiceTest {
         when(passwordEncoder.matches(request.getPassword(), member.getPassword())).thenReturn(false);
 
         assertThrows(IllegalArgumentException.class, () -> memberService.login(request));
+        verify(memberQueryService).findByEmail(email);
+        verify(passwordEncoder).matches(request.getPassword(), member.getPassword());
     }
 }
