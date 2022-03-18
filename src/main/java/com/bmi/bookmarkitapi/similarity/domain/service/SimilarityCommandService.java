@@ -12,7 +12,7 @@ public class SimilarityCommandService extends BaseCommandService<Similarity> {
         super(similarityRepository);
     }
 
-    public void create(String inputLink, String outputLinks) {
-        this.save(new Similarity(inputLink, outputLinks));
+    public void saveWithLinks(String inputLink) {
+        this.save(new Similarity(inputLink));
     }
 }
