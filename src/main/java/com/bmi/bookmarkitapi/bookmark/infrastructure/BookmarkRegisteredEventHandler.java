@@ -1,6 +1,5 @@
 package com.bmi.bookmarkitapi.bookmark.infrastructure;
 
-import com.bmi.bookmarkitapi.bookmark.application.BookmarkModificationService;
 import com.bmi.bookmarkitapi.bookmark.domain.event.BookmarkRegisteredEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

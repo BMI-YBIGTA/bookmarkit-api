@@ -1,4 +1,4 @@
-package com.bmi.bookmarkitapi.bookmark.application;
+package com.bmi.bookmarkitapi.bookmark.infrastructure;
 
 import com.bmi.bookmarkitapi.bookmark.domain.model.Bookmark;
 import com.bmi.bookmarkitapi.bookmark.domain.model.BookmarkStatus;
@@ -14,19 +14,15 @@ public class BookmarkModificationService {
 
     private final BookmarkQueryService bookmarkQueryService;
 
-    public void setContentAndCategory(Long bookmarkId, String content, String mainCategory, String subCategory) {
-        Bookmark bookmark = bookmarkQueryService.findById(bookmarkId);
-        bookmark.setContent(content);
-        bookmark.setCategory(mainCategory, subCategory);
-    }
-
     public void request(Long bookmarkId) {
         Bookmark bookmark = bookmarkQueryService.findById(bookmarkId);
         bookmark.modifyStatus(BookmarkStatus.REQUESTING);
     }
 
-    public void complete(Long bookmarkId) {
+    public void complete(Long bookmarkId, String content, String mainCategory, String subCategory) {
         Bookmark bookmark = bookmarkQueryService.findById(bookmarkId);
+        bookmark.setContent(content);
+        bookmark.setCategory(mainCategory, subCategory);
         bookmark.modifyStatus(BookmarkStatus.COMPLETED);
     }
 }
