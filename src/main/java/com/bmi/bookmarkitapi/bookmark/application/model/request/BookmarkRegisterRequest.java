@@ -1,10 +1,10 @@
-package com.bmi.bookmarkitapi.bookmark.application.model;
+package com.bmi.bookmarkitapi.bookmark.application.model.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class BookmarkRegistrationRequest {
+public class BookmarkRegisterRequest {
     public String link;
 }

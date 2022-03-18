@@ -32,35 +32,24 @@ public class Bookmark extends BaseEntity {
         this.link = link;
     }
 
-    public Bookmark statusModify(BookmarkStatus status) {
-        this.status = status;
-        return this;
-    }
-
-    public Bookmark contentSet(String content) {
+    public void setContent(String content) {
         this.content = content;
-        return this;
     }
 
-    public void request() {
-        this.status = BookmarkStatus.REQUESTING;
-    }
-
-    public void complete() {
-        this.status = BookmarkStatus.COMPLETED;
-    }
-
-    public void setCategory(String mainCategory, String subCategory){
+    public void setCategory(String mainCategory, String subCategory) {
         this.mainCategory = mainCategory;
         this.subCategory = subCategory;
     }
 
+    public void modifyStatus(BookmarkStatus status) {
+        this.status = status;
+    }
+
     public String summarizeContent(String searchText) {
-        int index = content.indexOf(searchText);
-        if (index<= -1){
+        int startIndex = content.indexOf(searchText);
+        if (startIndex == -1){
             return "";
         }
-        int startIndex = index > -1 ? index : 0;
         int endIndex = Math.min(startIndex + 200, content.length());
         return content.substring(startIndex, endIndex);
     }

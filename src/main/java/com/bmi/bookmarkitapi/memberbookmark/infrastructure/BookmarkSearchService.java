@@ -17,7 +17,6 @@ public class BookmarkSearchService implements IBookmarkSearchService {
 
     @Override
     public List<Bookmark> search(BookmarkSearchRequest request) {
-        return bookmarkQueryService.query(request);
-
+        return bookmarkQueryService.search(request.bookmarkIds, request.titleSearchedBookmarkIds, request.searchText, request.pageable);
     }
 }

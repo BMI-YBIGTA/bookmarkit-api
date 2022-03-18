@@ -12,6 +12,6 @@ public class BookmarkRegisteredEvent {
 
     @Override
     public String toString() {
-        return bookmarkId.toString() + "|||" + link;
+        return bookmarkId.toString() + "|" + link;
     }
 }

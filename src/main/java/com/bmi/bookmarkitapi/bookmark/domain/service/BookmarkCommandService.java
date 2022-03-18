@@ -12,7 +12,7 @@ public class BookmarkCommandService extends BaseCommandService<Bookmark> {
         super(bookmarkRepository);
     }
 
-    public Bookmark create(String link) {
+    public Bookmark saveWithLink(String link) {
         return this.save(new Bookmark(link));
     }
 }
