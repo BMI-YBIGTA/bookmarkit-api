@@ -21,7 +21,8 @@ public class BookmarkQueryService extends BaseQueryService<Bookmark> {
     }
 
     public Bookmark findByLink(String link) {
-        return bookmarkRepository.findByLink(link).orElseThrow(ResourceNotFoundException::new);
+        return bookmarkRepository.findByLink(link)
+                .orElseThrow(() -> new ResourceNotFoundException("해당 링크를 가진 북마크가 존재하지 않습니다"));
     }
 
     public List<Bookmark> search(

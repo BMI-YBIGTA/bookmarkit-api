@@ -16,7 +16,7 @@ public class SimilarityModificationService {
 
     public void setOutputLinks(String inputLink, String outputLinks) {
         Similarity similarity = similarityQueryService.findByInputLink(inputLink)
-                .orElseThrow(ResourceNotFoundException::new);
+                .orElseThrow(() -> new ResourceNotFoundException("유사 링크 추천을 위한 링크가 저장되지 않았습니다"));
         similarity.setOutputLinks(outputLinks);
     }
 }
