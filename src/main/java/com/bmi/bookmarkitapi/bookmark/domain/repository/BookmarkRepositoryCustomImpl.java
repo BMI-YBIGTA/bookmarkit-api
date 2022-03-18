@@ -31,7 +31,7 @@ public class BookmarkRepositoryCustomImpl implements BookmarkRepositoryCustom {
     }
 
     @Override
-    public List<Bookmark> findByCategory(List<Long> bookmarkIds, String mainCategory) {
+    public List<Bookmark> findByMainCategory(List<Long> bookmarkIds, String mainCategory) {
         return queryFactory.selectFrom(bookmark)
                 .where(bookmark.id.in(bookmarkIds),
                         bookmark.status.eq(BookmarkStatus.COMPLETED),
