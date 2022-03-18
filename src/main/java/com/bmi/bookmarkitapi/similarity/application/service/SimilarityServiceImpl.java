@@ -1,8 +1,6 @@
 package com.bmi.bookmarkitapi.similarity.application.service;
 
-import com.bmi.bookmarkitapi.common.exception.ResourceNotFoundException;
 import com.bmi.bookmarkitapi.similarity.application.model.response.SimilarityResponse;
-import com.bmi.bookmarkitapi.similarity.domain.model.Similarity;
 import com.bmi.bookmarkitapi.similarity.domain.service.SimilarityCommandService;
 import com.bmi.bookmarkitapi.similarity.domain.service.SimilarityQueryService;
 import lombok.RequiredArgsConstructor;
@@ -16,16 +14,10 @@ public class SimilarityServiceImpl implements SimilarityService {
     private final SimilarityQueryService similarityQueryService;
 
     @Override
-    public void register(String inputLink) {
-        if (similarityQueryService.findByInputLink(inputLink).isEmpty()) {
-            similarityCommandService.saveWithLinks(inputLink);
-        }
-    }
-
-    @Override
     public SimilarityResponse getSimilarLinks(String link) {
-        Similarity similarity = similarityQueryService.findByInputLink(link)
-                .orElseThrow(ResourceNotFoundException::new);
-        return new SimilarityResponse(similarity);
+        // DB에 있으면 링크를 반환, 없으면 링크를 저장하고 모델 서버로 전송
+        return similarityQueryService.findByInputLink(link)
+                .map(SimilarityResponse::new)
+                .orElseGet(() -> new SimilarityResponse(similarityCommandService.saveWithLinks(link)));
     }
 }

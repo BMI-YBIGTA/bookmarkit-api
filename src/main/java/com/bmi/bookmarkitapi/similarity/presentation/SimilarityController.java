@@ -13,12 +13,6 @@ public class SimilarityController {
 
     private final SimilarityService similarityService;
 
-    @PostMapping
-    public Response.Empty register(@RequestBody String link) {
-        similarityService.register(link);
-        return new Response.Empty();
-    }
-
     @GetMapping
     public Response.Item<SimilarityResponse> getSimilarLinks(@RequestParam String link) {
         return new Response.Item<>(similarityService.getSimilarLinks(link));

@@ -4,7 +4,5 @@ import com.bmi.bookmarkitapi.similarity.application.model.response.SimilarityRes
 
 public interface SimilarityService {
 
-    void register(String link);
-
     SimilarityResponse getSimilarLinks(String link);
 }
