@@ -7,7 +7,7 @@ import com.bmi.bookmarkitapi.common.BaseRepository;
 import java.util.List;
 import java.util.Optional;
 
-public interface BookmarkRepository extends BaseRepository<Bookmark> {
+public interface BookmarkRepository extends BaseRepository<Bookmark>, BookmarkRepositoryCustom {
 
     Optional<Bookmark> findByLink(String link);
 

@@ -13,10 +13,11 @@ import java.util.List;
 import static com.bmi.bookmarkitapi.bookmark.domain.model.QBookmark.bookmark;
 
 @RequiredArgsConstructor
-public class BookmarkRepositoryCustomImpl {
+public class BookmarkRepositoryCustomImpl implements BookmarkRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
 
+    @Override
     public List<Bookmark> search(
             List<Long> bookmarkIds, List<Long> titleSearchedBookmarkIds, String searchText, Pageable pageable
     ) {
@@ -29,6 +30,7 @@ public class BookmarkRepositoryCustomImpl {
                 .fetch();
     }
 
+    @Override
     public List<Bookmark> findByCategory(List<Long> bookmarkIds, String mainCategory) {
         return queryFactory.selectFrom(bookmark)
                 .where(bookmark.id.in(bookmarkIds),
