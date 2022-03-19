@@ -40,7 +40,9 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public MemberResponse register(MemberRegisterRequest request) {
         memberQueryService.findByEmail(request.getEmail())
-                .ifPresent(value -> { throw new DuplicateResourceException(); });
+                .ifPresent(value -> {
+                    throw new DuplicateResourceException("이미 가입된 이메일입니다. email=" + request.getEmail());
+                });
 
         request.setPassword(passwordEncoder.encode(request.getPassword()));
         Member member = memberCommandService.save(request.toEntity());
@@ -50,7 +52,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public MemberLoginResponse login(MemberLoginRequest request) {
         Member member = memberQueryService.findByEmail(request.getEmail())
-                .orElseThrow(() -> new IllegalArgumentException("가입되지 않은 이메일입니다"));
+                .orElseThrow(() -> new IllegalArgumentException("가입되지 않은 이메일입니다. email=" + request.getEmail()));
 
         if (!passwordEncoder.matches(request.getPassword(), member.getPassword())) {
             throw new IllegalArgumentException("잘못된 비밀번호입니다");
