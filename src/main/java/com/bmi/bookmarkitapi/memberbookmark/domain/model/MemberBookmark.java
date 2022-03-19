@@ -4,6 +4,7 @@ import com.bmi.bookmarkitapi.common.BaseEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.persistence.*;
 
@@ -26,7 +27,9 @@ public class MemberBookmark extends BaseEntity {
         this.title = title;
     }
 
-    public void titleModify(String title) {
-        this.title = title;
+    public void modifyTitle(String title) {
+        if (StringUtils.isNotBlank(title)) {
+            this.title = title;
+        }
     }
 }
