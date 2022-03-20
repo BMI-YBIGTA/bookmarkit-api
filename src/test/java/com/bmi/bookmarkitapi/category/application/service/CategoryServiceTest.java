@@ -40,7 +40,7 @@ class CategoryServiceTest {
 
         when(categoryQueryService.findAll()).thenReturn(categories);
 
-        List<CategoryListResponse> result = categoryService.getCategoryList();
+        List<CategoryListResponse> result = categoryService.getCategories();
 
         assertThat(result.size()).isEqualTo(2);
         assertThat(result).filteredOn(category -> category.getMainCategory().equals(mainCategory1))

@@ -16,7 +16,7 @@ public class CategoryServiceImpl implements CategoryService {
     private final CategoryQueryService categoryQueryService;
 
     @Override
-    public List<CategoryListResponse> getCategoryList() {
+    public List<CategoryListResponse> getCategories() {
         Map<String, List<CategoryListResponse.CategoryDto>> categories = categoryQueryService.findAll()
                 .stream()
                 .map(category -> new CategoryListResponse.CategoryDto(category.getMainCategory(), category.getSubCategory()))
