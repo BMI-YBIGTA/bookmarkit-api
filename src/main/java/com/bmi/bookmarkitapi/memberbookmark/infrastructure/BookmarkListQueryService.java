@@ -2,9 +2,6 @@ package com.bmi.bookmarkitapi.memberbookmark.infrastructure;
 
 import com.bmi.bookmarkitapi.bookmark.domain.model.Bookmark;
 import com.bmi.bookmarkitapi.bookmark.domain.service.BookmarkQueryService;
-import com.bmi.bookmarkitapi.memberbookmark.application.IBookmarkListQueryService;
-import com.bmi.bookmarkitapi.memberbookmark.application.model.BookmarkCategoryQueryRequest;
-import com.bmi.bookmarkitapi.memberbookmark.application.model.BookmarkRecentQueryRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -12,17 +9,15 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Service
-public class BookmarkListQueryService implements IBookmarkListQueryService {
+public class BookmarkListQueryService {
 
-    private final BookmarkQueryService queryService;
+    private final BookmarkQueryService bookmarkQueryService;
 
-    @Override
-    public List<Bookmark> query(BookmarkCategoryQueryRequest request) {
-        return queryService.findByMainCategory(request.bookmarkIdList, request.mainCategory);
+    public List<Bookmark> getBookmarksByCategory(List<Long> bookmarkIds, String mainCategory) {
+        return bookmarkQueryService.findByMainCategory(bookmarkIds, mainCategory);
     }
 
-    @Override
-    public List<Bookmark> query(BookmarkRecentQueryRequest request) {
-        return  queryService.findRecent20Bookmarks(request.bookmarkIdList);
+    public List<Bookmark> getRecentBookmarks(List<Long> bookmarkIds) {
+        return  bookmarkQueryService.findRecent20Bookmarks(bookmarkIds);
     }
 }
