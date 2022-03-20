@@ -1,11 +1,11 @@
 package com.bmi.bookmarkitapi.memberbookmark.presentation;
 
+import com.bmi.bookmarkitapi.common.dto.Response;
 import com.bmi.bookmarkitapi.common.security.JwtTokenProvider;
-import com.bmi.bookmarkitapi.memberbookmark.application.MemberBookmarkRegistrationService;
-import com.bmi.bookmarkitapi.memberbookmark.application.MemberBookmarkTitleModificationService;
-import com.bmi.bookmarkitapi.memberbookmark.application.model.MemberBookmarkRegistrationRequest;
-import com.bmi.bookmarkitapi.memberbookmark.application.model.MemberBookmarkTitleModificationRequest;
-import com.bmi.bookmarkitapi.memberbookmark.domain.model.MemberBookmark;
+import com.bmi.bookmarkitapi.memberbookmark.application.MemberBookmarkService;
+import com.bmi.bookmarkitapi.memberbookmark.application.model.request.MemberBookmarkRegisterRequest;
+import com.bmi.bookmarkitapi.memberbookmark.application.model.request.MemberBookmarkTitleModifyRequest;
+import com.bmi.bookmarkitapi.memberbookmark.application.model.response.MemberBookmarkResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,25 +16,23 @@ import javax.servlet.http.HttpServletRequest;
 @RestController
 public class MemberBookmarkCommandController {
 
-    private final MemberBookmarkRegistrationService registrationService;
-    private final MemberBookmarkTitleModificationService titleModificationService;
+    private final MemberBookmarkService memberBookmarkService;
     private final JwtTokenProvider jwtTokenProvider;
 
     @PostMapping
-    public MemberBookmark register(
-            @RequestBody MemberBookmarkRegistrationRequest request,
+    public Response.Item<MemberBookmarkResponse> register(
+            @RequestBody MemberBookmarkRegisterRequest request,
             HttpServletRequest httpServletRequest
     ) {
-        Long id = jwtTokenProvider.getMemberId(jwtTokenProvider.extractToken(httpServletRequest));
-
-        return registrationService.register(id, request);
+        Long memberId = jwtTokenProvider.getMemberId(jwtTokenProvider.extractToken(httpServletRequest));
+        return new Response.Item<>(memberBookmarkService.register(memberId, request));
     }
 
-    @PatchMapping("{id}/title")
-    public MemberBookmark titleModify(
+    @PutMapping("/{id}")
+    public Response.Item<MemberBookmarkResponse> modifyTitle(
             @PathVariable Long id,
-            @RequestBody MemberBookmarkTitleModificationRequest request
+            @RequestBody MemberBookmarkTitleModifyRequest request
     ) {
-        return titleModificationService.modify(id, request);
+        return new Response.Item<>(memberBookmarkService.modifyTitle(id, request));
     }
 }
