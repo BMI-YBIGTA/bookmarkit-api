@@ -46,7 +46,7 @@ public class BookmarkRepositoryCustomImpl implements BookmarkRepositoryCustom {
     }
 
     private BooleanExpression categoryOrContentContainsText(String searchText) {
-        if (searchText == null) {
+        if (StringUtils.isEmpty(searchText)) {
             return null;
         }
         return bookmark.mainCategory.containsIgnoreCase(searchText)
