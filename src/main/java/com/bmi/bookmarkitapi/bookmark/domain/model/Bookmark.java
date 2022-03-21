@@ -47,7 +47,7 @@ public class Bookmark extends BaseEntity {
 
     public String summarizeContent(String searchText) {
         int startIndex = content.indexOf(searchText);
-        if (startIndex == -1){
+        if (startIndex == -1) {
             return "";
         }
         int endIndex = Math.min(startIndex + 200, content.length());
