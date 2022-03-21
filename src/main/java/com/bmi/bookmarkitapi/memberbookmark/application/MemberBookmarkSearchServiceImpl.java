@@ -24,7 +24,7 @@ public class MemberBookmarkSearchServiceImpl implements MemberBookmarkSearchServ
     private final BookmarkSearchService bookmarkSearchService;
 
     @Override
-    public Page<MemberBookmarkSearchResponse> search(MemberBookmarkSearchRequest request, Pageable pageable) {
+    public List<MemberBookmarkSearchResponse> search(MemberBookmarkSearchRequest request) {
         List<MemberBookmark> memberBookmarks = memberBookmarkQueryService.findByMemberId(request.getMemberId());
         List<Long> bookmarkIds = memberBookmarks.stream()
                 .map(MemberBookmark::getBookmarkId)
@@ -35,12 +35,13 @@ public class MemberBookmarkSearchServiceImpl implements MemberBookmarkSearchServ
                 .map(MemberBookmark::getBookmarkId)
                 .collect(Collectors.toList());
 
-        List<MemberBookmarkSearchResponse> bookmarks = getBookmarkSearchResponses(
-                bookmarkSearchService.search(bookmarkIds, searchedBookmarkIds, request.getSearchText(), pageable),
+        return getBookmarkSearchResponses(
+                bookmarkSearchService.search(
+                        request.getBookmarkId(), bookmarkIds, searchedBookmarkIds, request.getSearchText(), request.getPageSize()
+                ),
                 memberBookmarks,
                 request.getSearchText()
         );
-        return new PageImpl<>(bookmarks, pageable, bookmarks.size());
     }
 
     private List<MemberBookmarkSearchResponse> getBookmarkSearchResponses(
@@ -57,6 +58,7 @@ public class MemberBookmarkSearchServiceImpl implements MemberBookmarkSearchServ
                             );
 
                     return new MemberBookmarkSearchResponse(
+                            bookmark.getId(),
                             bookmark.getMainCategory(),
                             bookmark.getSubCategory(),
                             memberBookmark.getTitle(),

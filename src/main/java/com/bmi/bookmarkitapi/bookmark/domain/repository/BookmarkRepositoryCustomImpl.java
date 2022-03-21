@@ -6,7 +6,6 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -19,14 +18,14 @@ public class BookmarkRepositoryCustomImpl implements BookmarkRepositoryCustom {
 
     @Override
     public List<Bookmark> search(
-            List<Long> bookmarkIds, List<Long> titleSearchedBookmarkIds, String searchText, Pageable pageable
+            Long id, List<Long> bookmarkIds, List<Long> titleSearchedBookmarkIds, String searchText, int pageSize
     ) {
         return queryFactory.selectFrom(bookmark)
-                .where(bookmark.status.eq(BookmarkStatus.COMPLETED),
+                .where(idLessThen(id),
+                        bookmark.status.eq(BookmarkStatus.COMPLETED),
                         containsText(bookmarkIds, titleSearchedBookmarkIds, searchText))
-                .orderBy(bookmark.createdAt.desc())
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
+                .orderBy(bookmark.id.desc())
+                .limit(pageSize)
                 .fetch();
     }
 
@@ -38,6 +37,13 @@ public class BookmarkRepositoryCustomImpl implements BookmarkRepositoryCustom {
                         mainCategoryEquals(mainCategory))
                 .orderBy(bookmark.mainCategory.asc(), bookmark.subCategory.asc())
                 .fetch();
+    }
+
+    private BooleanExpression idLessThen(Long id) {
+        if (id == null) {
+            return null;
+        }
+        return bookmark.id.lt(id);
     }
 
     private BooleanExpression containsText(List<Long> bookmarkIds, List<Long> titleSearchedBookmarkIds, String searchText) {

@@ -8,12 +8,11 @@ import com.bmi.bookmarkitapi.memberbookmark.application.MemberBookmarkService;
 import com.bmi.bookmarkitapi.memberbookmark.application.model.request.MemberBookmarkCategoryQueryRequest;
 import com.bmi.bookmarkitapi.memberbookmark.application.model.request.MemberBookmarkRecentQueryRequest;
 import com.bmi.bookmarkitapi.memberbookmark.application.model.request.MemberBookmarkSearchRequest;
-import com.bmi.bookmarkitapi.memberbookmark.application.model.response.MemberBookmarkSearchResponse;
 import com.bmi.bookmarkitapi.memberbookmark.application.model.response.MemberBookmarkCategoryQueryResponse;
 import com.bmi.bookmarkitapi.memberbookmark.application.model.response.MemberBookmarkRecentQueryResponse;
 import com.bmi.bookmarkitapi.memberbookmark.application.model.response.MemberBookmarkResponse;
+import com.bmi.bookmarkitapi.memberbookmark.application.model.response.MemberBookmarkSearchResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -47,15 +46,15 @@ public class MemberBookmarkQueryController {
     }
 
     @GetMapping("/search")
-    public Response.ItemPage<MemberBookmarkSearchResponse> search(
-            @RequestParam(name = "page", defaultValue = "0") int page,
-            @RequestParam(name = "size", defaultValue = "30") int size,
+    public Response.ItemList<MemberBookmarkSearchResponse> search(
+            @RequestParam(name = "bookmarkId") Long bookmarkId,
             @RequestParam(name = "title", defaultValue = "") String searchText,
+            @RequestParam(name = "pageSize", defaultValue = "10") int pageSize,
             HttpServletRequest httpServletRequest
     ) {
         Long memberId = jwtTokenProvider.getMemberId(jwtTokenProvider.extractToken(httpServletRequest));
-        return new Response.ItemPage<>(
-                memberBookmarkSearchService.search(new MemberBookmarkSearchRequest(memberId, searchText), PageRequest.of(page, size))
+        return new Response.ItemList<>(
+                memberBookmarkSearchService.search(new MemberBookmarkSearchRequest(memberId, bookmarkId, searchText, pageSize))
         );
     }
 
@@ -65,12 +64,16 @@ public class MemberBookmarkQueryController {
             HttpServletRequest httpServletRequest
     ) {
         Long memberId = jwtTokenProvider.getMemberId(jwtTokenProvider.extractToken(httpServletRequest));
-        return new Response.ItemList<>(memberBookmarkListQueryService.getBookmarksByCategory(new MemberBookmarkCategoryQueryRequest(memberId, category)));
+        return new Response.ItemList<>(
+                memberBookmarkListQueryService.getBookmarksByCategory(new MemberBookmarkCategoryQueryRequest(memberId, category))
+        );
     }
 
     @GetMapping("/recent")
     public Response.ItemList<MemberBookmarkRecentQueryResponse> getRecentBookmarks(HttpServletRequest httpServletRequest) {
         Long memberId = jwtTokenProvider.getMemberId(jwtTokenProvider.extractToken(httpServletRequest));
-        return new Response.ItemList<>(memberBookmarkListQueryService.getRecentBookmarks(new MemberBookmarkRecentQueryRequest(memberId)));
+        return new Response.ItemList<>(
+                memberBookmarkListQueryService.getRecentBookmarks(new MemberBookmarkRecentQueryRequest(memberId))
+        );
     }
 }

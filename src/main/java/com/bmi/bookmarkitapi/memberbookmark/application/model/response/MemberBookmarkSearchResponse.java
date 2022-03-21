@@ -7,6 +7,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class MemberBookmarkSearchResponse {
+    private Long bookmarkId;
     private String mainCategory;
     private String subCategory;
     private String title;

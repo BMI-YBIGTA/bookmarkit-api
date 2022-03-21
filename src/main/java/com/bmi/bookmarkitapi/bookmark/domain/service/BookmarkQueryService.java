@@ -5,7 +5,6 @@ import com.bmi.bookmarkitapi.bookmark.domain.model.BookmarkStatus;
 import com.bmi.bookmarkitapi.bookmark.domain.repository.BookmarkRepository;
 import com.bmi.bookmarkitapi.common.BaseQueryService;
 import com.bmi.bookmarkitapi.common.exception.ResourceNotFoundException;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,16 +25,16 @@ public class BookmarkQueryService extends BaseQueryService<Bookmark> {
     }
 
     public List<Bookmark> search(
-            List<Long> bookmarkIds, List<Long> titleSearchedBookmarkIds, String searchText, Pageable pageable
-    ){
-        return bookmarkRepository.search(bookmarkIds, titleSearchedBookmarkIds, searchText, pageable);
+            Long id, List<Long> bookmarkIds, List<Long> titleSearchedBookmarkIds, String searchText, int pageSize
+    ) {
+        return bookmarkRepository.search(id, bookmarkIds, titleSearchedBookmarkIds, searchText, pageSize);
     }
 
-    public List<Bookmark> findByMainCategory(List<Long> bookmarkIds, String mainCategory){
+    public List<Bookmark> findByMainCategory(List<Long> bookmarkIds, String mainCategory) {
         return bookmarkRepository.findByMainCategory(bookmarkIds, mainCategory);
     }
 
-    public List<Bookmark> findRecent20Bookmarks(List<Long> bookmarkIds){
+    public List<Bookmark> findRecent20Bookmarks(List<Long> bookmarkIds) {
         return bookmarkRepository.findFirst20ByIdInAndStatusEqualsOrderByCreatedAtDesc(bookmarkIds, BookmarkStatus.COMPLETED);
     }
 }
