@@ -1,7 +1,6 @@
 package com.bmi.bookmarkitapi.bookmark.domain.service;
 
 import com.bmi.bookmarkitapi.bookmark.domain.model.Bookmark;
-import com.bmi.bookmarkitapi.bookmark.domain.model.BookmarkStatus;
 import com.bmi.bookmarkitapi.bookmark.domain.repository.BookmarkRepository;
 import com.bmi.bookmarkitapi.common.BaseQueryService;
 import com.bmi.bookmarkitapi.common.exception.ResourceNotFoundException;
@@ -35,6 +34,6 @@ public class BookmarkQueryService extends BaseQueryService<Bookmark> {
     }
 
     public List<Bookmark> findRecent20Bookmarks(List<Long> bookmarkIds) {
-        return bookmarkRepository.findFirst20ByIdInAndStatusEqualsOrderByCreatedAtDesc(bookmarkIds, BookmarkStatus.COMPLETED);
+        return bookmarkRepository.findFirst20ByIdInOrderByCreatedAtDesc(bookmarkIds);
     }
 }

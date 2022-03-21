@@ -1,7 +1,6 @@
 package com.bmi.bookmarkitapi.bookmark.domain.repository;
 
 import com.bmi.bookmarkitapi.bookmark.domain.model.Bookmark;
-import com.bmi.bookmarkitapi.bookmark.domain.model.BookmarkStatus;
 import com.bmi.bookmarkitapi.common.BaseRepository;
 
 import java.util.List;
@@ -11,5 +10,5 @@ public interface BookmarkRepository extends BaseRepository<Bookmark>, BookmarkRe
 
     Optional<Bookmark> findByLink(String link);
 
-    List<Bookmark> findFirst20ByIdInAndStatusEqualsOrderByCreatedAtDesc(List<Long> bookmarkIds, BookmarkStatus status);
+    List<Bookmark> findFirst20ByIdInOrderByCreatedAtDesc(List<Long> bookmarkIds);
 }

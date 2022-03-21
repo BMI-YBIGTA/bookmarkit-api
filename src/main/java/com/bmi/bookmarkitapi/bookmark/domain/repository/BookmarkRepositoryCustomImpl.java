@@ -1,7 +1,6 @@
 package com.bmi.bookmarkitapi.bookmark.domain.repository;
 
 import com.bmi.bookmarkitapi.bookmark.domain.model.Bookmark;
-import com.bmi.bookmarkitapi.bookmark.domain.model.BookmarkStatus;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +21,6 @@ public class BookmarkRepositoryCustomImpl implements BookmarkRepositoryCustom {
     ) {
         return queryFactory.selectFrom(bookmark)
                 .where(idLessThen(id),
-                        bookmark.status.eq(BookmarkStatus.COMPLETED),
                         containsText(bookmarkIds, titleSearchedBookmarkIds, searchText))
                 .orderBy(bookmark.id.desc())
                 .limit(pageSize)
@@ -33,7 +31,6 @@ public class BookmarkRepositoryCustomImpl implements BookmarkRepositoryCustom {
     public List<Bookmark> findByMainCategory(List<Long> bookmarkIds, String mainCategory) {
         return queryFactory.selectFrom(bookmark)
                 .where(bookmark.id.in(bookmarkIds),
-                        bookmark.status.eq(BookmarkStatus.COMPLETED),
                         mainCategoryEquals(mainCategory))
                 .orderBy(bookmark.mainCategory.asc(), bookmark.subCategory.asc())
                 .fetch();
