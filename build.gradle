@@ -49,3 +49,7 @@ dependencies {
 test {
     useJUnitPlatform()
 }
+
+tasks.bootJar {
+    archiveFileName = archiveBaseName.get() + "." + archiveExtension.get()
+}
