@@ -19,6 +19,7 @@ public class MemberBookmarkServiceImpl implements MemberBookmarkService {
     private final MemberBookmarkCommandService memberBookmarkCommandService;
     private final BookmarkRegistrationService bookmarkRegistrationService;
 
+    @Transactional
     @Override
     public MemberBookmarkResponse register(Long memberId, MemberBookmarkRegisterRequest request) {
         Long bookmarkId = bookmarkRegistrationService.saveIfNotExist(request.getLink()).getId();
