@@ -1,35 +1,21 @@
 package com.bmi.bookmarkitapi.memberbookmark.application;
 
-import com.bmi.bookmarkitapi.memberbookmark.application.model.MemberBookmarkDto;
-import com.bmi.bookmarkitapi.memberbookmark.domain.service.MemberBookmarkQueryService;
-import lombok.RequiredArgsConstructor;
+import com.bmi.bookmarkitapi.memberbookmark.application.model.request.MemberBookmarkTitleModifyRequest;
+import com.bmi.bookmarkitapi.memberbookmark.application.model.request.MemberBookmarkRegisterRequest;
+import com.bmi.bookmarkitapi.memberbookmark.application.model.response.MemberBookmarkResponse;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
-@RequiredArgsConstructor
-@Service
-public class MemberBookmarkService {
+public interface MemberBookmarkService {
 
-    private final MemberBookmarkQueryService memberBookmarkQueryService;
+    List<MemberBookmarkResponse> getMemberBookmarks();
 
-    public MemberBookmarkDto.Response findById(Long id) {
-        return new MemberBookmarkDto.Response(memberBookmarkQueryService.findById(id));
-    }
+    MemberBookmarkResponse getMemberBookmark(Long id);
 
-    public List<MemberBookmarkDto.Response> findAll() {
-        return memberBookmarkQueryService.findAll()
-                .stream()
-                .map(MemberBookmarkDto.Response::new)
-                .collect(Collectors.toList());
-    }
+    Page<MemberBookmarkResponse> getMemberBookmarkPage(int page, int size);
 
-    public Page<MemberBookmarkDto.Response> findByPage(int page, int size) {
-        return memberBookmarkQueryService.findByPage(PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "id")))
-                .map(MemberBookmarkDto.Response::new);
-    }
+    MemberBookmarkResponse register(Long memberId, MemberBookmarkRegisterRequest request);
+
+    MemberBookmarkResponse modifyTitle(Long id, MemberBookmarkTitleModifyRequest request);
 }

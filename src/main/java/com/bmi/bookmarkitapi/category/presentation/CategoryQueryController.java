@@ -16,7 +16,7 @@ public class CategoryQueryController {
     private final CategoryService categoryService;
 
     @GetMapping
-    public Response.ItemList<CategoryListResponse> getCategoryList() {
-        return new Response.ItemList<>(categoryService.getCategoryList());
+    public Response.ItemList<CategoryListResponse> getCategories() {
+        return new Response.ItemList<>(categoryService.getCategories());
     }
 }

@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface CategoryService {
 
-    List<CategoryListResponse> getCategoryList();
+    List<CategoryListResponse> getCategories();
 }

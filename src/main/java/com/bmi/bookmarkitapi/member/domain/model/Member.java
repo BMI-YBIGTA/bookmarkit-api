@@ -4,6 +4,7 @@ import com.bmi.bookmarkitapi.common.BaseEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -39,13 +40,13 @@ public class Member extends BaseEntity implements UserDetails {
     }
 
     public void modifyInfo(String email, String name, String password) {
-        if (email != null && !email.isBlank()) {
+        if (StringUtils.isNotBlank(email)) {
             this.email = email;
         }
-        if (name != null && !name.isBlank()) {
+        if (StringUtils.isNotBlank(name)) {
             this.name = name;
         }
-        if (password != null && !password.isBlank()) {
+        if (StringUtils.isNotBlank(password)) {
             this.password = password;
         }
     }

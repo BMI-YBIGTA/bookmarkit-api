@@ -17,11 +17,11 @@ public class MemberBookmarkQueryService extends BaseQueryService<MemberBookmark>
         this.memberBookmarkRepository = memberBookmarkRepository;
     }
 
-    public List<MemberBookmark> queryByMember(Long memberId){
+    public List<MemberBookmark> findByMemberId(Long memberId) {
         return memberBookmarkRepository.findByMemberId(memberId);
     }
 
-    public List<MemberBookmark> queryByTitleContains(Long memberId, String searchText){
-        return memberBookmarkRepository.findByMemberIdEqualsAndTitleContains(memberId, searchText);
+    public List<MemberBookmark> search(Long memberId, String searchText) {
+        return memberBookmarkRepository.search(memberId, searchText);
     }
 }
