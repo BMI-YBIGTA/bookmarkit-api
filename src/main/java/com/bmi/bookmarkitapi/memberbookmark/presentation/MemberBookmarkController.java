@@ -4,25 +4,23 @@ import com.bmi.bookmarkitapi.common.dto.Response;
 import com.bmi.bookmarkitapi.common.security.JwtTokenProvider;
 import com.bmi.bookmarkitapi.memberbookmark.application.MemberBookmarkListQueryService;
 import com.bmi.bookmarkitapi.memberbookmark.application.MemberBookmarkSearchService;
-import com.bmi.bookmarkitapi.memberbookmark.application.model.request.MemberBookmarkCategoryQueryRequest;
-import com.bmi.bookmarkitapi.memberbookmark.application.model.request.MemberBookmarkRecentQueryRequest;
-import com.bmi.bookmarkitapi.memberbookmark.application.model.request.MemberBookmarkSearchRequest;
+import com.bmi.bookmarkitapi.memberbookmark.application.MemberBookmarkService;
+import com.bmi.bookmarkitapi.memberbookmark.application.model.request.*;
 import com.bmi.bookmarkitapi.memberbookmark.application.model.response.MemberBookmarkCategoryQueryResponse;
 import com.bmi.bookmarkitapi.memberbookmark.application.model.response.MemberBookmarkRecentQueryResponse;
+import com.bmi.bookmarkitapi.memberbookmark.application.model.response.MemberBookmarkResponse;
 import com.bmi.bookmarkitapi.memberbookmark.application.model.response.MemberBookmarkSearchResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
 @RequiredArgsConstructor
 @RequestMapping("/api/memberbookmark")
 @RestController
-public class MemberBookmarkQueryController {
+public class MemberBookmarkController {
 
+    private final MemberBookmarkService memberBookmarkService;
     private final MemberBookmarkSearchService memberBookmarkSearchService;
     private final MemberBookmarkListQueryService memberBookmarkListQueryService;
     private final JwtTokenProvider jwtTokenProvider;
@@ -57,5 +55,22 @@ public class MemberBookmarkQueryController {
         return new Response.ItemList<>(
                 memberBookmarkListQueryService.getRecentBookmarks(new MemberBookmarkRecentQueryRequest(memberId))
         );
+    }
+
+    @PostMapping
+    public Response.Item<MemberBookmarkResponse> register(
+            @RequestBody MemberBookmarkRegisterRequest request,
+            HttpServletRequest httpServletRequest
+    ) {
+        Long memberId = jwtTokenProvider.getMemberId(jwtTokenProvider.extractToken(httpServletRequest));
+        return new Response.Item<>(memberBookmarkService.register(memberId, request));
+    }
+
+    @PutMapping("/{id}")
+    public Response.Item<MemberBookmarkResponse> modifyTitle(
+            @PathVariable Long id,
+            @RequestBody MemberBookmarkTitleModifyRequest request
+    ) {
+        return new Response.Item<>(memberBookmarkService.modifyTitle(id, request));
     }
 }
