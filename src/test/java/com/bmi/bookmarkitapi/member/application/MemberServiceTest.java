@@ -1,4 +1,4 @@
-package com.bmi.bookmarkitapi.member.application.service;
+package com.bmi.bookmarkitapi.member.application;
 
 import com.bmi.bookmarkitapi.common.exception.DuplicateResourceException;
 import com.bmi.bookmarkitapi.common.security.JwtTokenProvider;
@@ -10,7 +10,8 @@ import com.bmi.bookmarkitapi.member.application.model.response.MemberResponse;
 import com.bmi.bookmarkitapi.member.domain.model.Member;
 import com.bmi.bookmarkitapi.member.domain.service.MemberCommandService;
 import com.bmi.bookmarkitapi.member.domain.service.MemberQueryService;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;

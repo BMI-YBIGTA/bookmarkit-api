@@ -1,7 +1,8 @@
-package com.bmi.bookmarkitapi.member.application.service;
+package com.bmi.bookmarkitapi.member.application;
 
 import com.bmi.bookmarkitapi.common.exception.DuplicateResourceException;
 import com.bmi.bookmarkitapi.common.security.JwtTokenProvider;
+import com.bmi.bookmarkitapi.member.application.MemberService;
 import com.bmi.bookmarkitapi.member.application.model.request.MemberLoginRequest;
 import com.bmi.bookmarkitapi.member.application.model.request.MemberModifyInfoRequest;
 import com.bmi.bookmarkitapi.member.application.model.request.MemberRegisterRequest;

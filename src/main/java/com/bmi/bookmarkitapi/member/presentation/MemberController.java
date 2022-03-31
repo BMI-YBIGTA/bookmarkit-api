@@ -6,7 +6,7 @@ import com.bmi.bookmarkitapi.member.application.model.request.MemberModifyInfoRe
 import com.bmi.bookmarkitapi.member.application.model.request.MemberRegisterRequest;
 import com.bmi.bookmarkitapi.member.application.model.response.MemberLoginResponse;
 import com.bmi.bookmarkitapi.member.application.model.response.MemberResponse;
-import com.bmi.bookmarkitapi.member.application.service.MemberService;
+import com.bmi.bookmarkitapi.member.application.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

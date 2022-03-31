@@ -1,5 +1,6 @@
-package com.bmi.bookmarkitapi.similarity.application.service;
+package com.bmi.bookmarkitapi.similarity.application;
 
+import com.bmi.bookmarkitapi.similarity.application.SimilarityService;
 import com.bmi.bookmarkitapi.similarity.application.model.response.SimilarityResponse;
 import com.bmi.bookmarkitapi.similarity.domain.service.SimilarityCommandService;
 import com.bmi.bookmarkitapi.similarity.domain.service.SimilarityQueryService;

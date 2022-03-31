@@ -1,4 +1,4 @@
-package com.bmi.bookmarkitapi.member.application.service;
+package com.bmi.bookmarkitapi.member.application;
 
 import com.bmi.bookmarkitapi.member.application.model.request.MemberLoginRequest;
 import com.bmi.bookmarkitapi.member.application.model.request.MemberModifyInfoRequest;

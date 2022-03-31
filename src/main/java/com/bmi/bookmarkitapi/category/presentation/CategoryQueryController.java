@@ -1,7 +1,7 @@
 package com.bmi.bookmarkitapi.category.presentation;
 
 import com.bmi.bookmarkitapi.category.application.model.response.CategoryListResponse;
-import com.bmi.bookmarkitapi.category.application.service.CategoryService;
+import com.bmi.bookmarkitapi.category.application.CategoryService;
 import com.bmi.bookmarkitapi.common.dto.Response;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;

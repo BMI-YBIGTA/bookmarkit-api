@@ -2,7 +2,7 @@ package com.bmi.bookmarkitapi.similarity.presentation;
 
 import com.bmi.bookmarkitapi.common.dto.Response;
 import com.bmi.bookmarkitapi.similarity.application.model.response.SimilarityResponse;
-import com.bmi.bookmarkitapi.similarity.application.service.SimilarityService;
+import com.bmi.bookmarkitapi.similarity.application.SimilarityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

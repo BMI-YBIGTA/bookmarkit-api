@@ -1,4 +1,4 @@
-package com.bmi.bookmarkitapi.category.application.service;
+package com.bmi.bookmarkitapi.category.application;
 
 import com.bmi.bookmarkitapi.category.domain.model.Category;
 import com.bmi.bookmarkitapi.category.domain.service.CategoryCommandService;
